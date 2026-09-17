@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookmedical – Værktøjs status</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="brand">
+    <h1 class="brand__name">Cookmedical</h1>
+    <p class="brand__tagline">Værktøjs status opslag</p>
+  </header>
+
+  <main class="lookup">
+    <form id="lookup-form" class="lookup__form" autocomplete="off">
+      <label for="tool-input" class="lookup__label">Værktøjet nummer</label>
+      <div class="lookup__row">
+        <input
+          type="text"
+          id="tool-input"
+          class="lookup__input"
+          placeholder="fx. EQ00011597 eller 52580"
+          inputmode="text"
+        >
+        <button type="submit" class="lookup__button">Søg</button>
+      </div>
+    </form>
+
+    <section id="result" class="result" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer">
+    <p>Data: D00174522-Rev102.xlsx</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
