@@ -19,8 +19,8 @@
     const now = new Date();
     const dd = pad2(now.getDate());
     const mon = MONTH_NAMES[now.getMonth()];
-    const yy = pad2(now.getFullYear() % 100);
-    dateEl.textContent = dd + mon + yy;
+    const yyyy = now.getFullYear();
+    dateEl.textContent = dd + mon + yyyy;
   }
 
   function renderIp() {
