@@ -2,6 +2,41 @@
   const form = document.getElementById('lookup-form');
   const input = document.getElementById('tool-input');
   const resultBox = document.getElementById('result');
+  const dateEl = document.getElementById('today-date');
+  const ipEl = document.getElementById('user-ip');
+
+  const MONTH_NAMES = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+
+  function pad2(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function renderToday() {
+    if (!dateEl) return;
+    const now = new Date();
+    const dd = pad2(now.getDate());
+    const mon = MONTH_NAMES[now.getMonth()];
+    const yy = pad2(now.getFullYear() % 100);
+    dateEl.textContent = dd + mon + yy;
+  }
+
+  function renderIp() {
+    if (!ipEl) return;
+    fetch('https://api.ipify.org?format=json')
+      .then(function (res) {
+        if (!res.ok) throw new Error('IP lookup failed');
+        return res.json();
+      })
+      .then(function (data) {
+        ipEl.textContent = data.ip;
+      })
+      .catch(function () {
+        ipEl.textContent = 'unavailable';
+      });
+  }
 
   function normalize(value) {
     return String(value || '').trim().toLowerCase();
@@ -76,4 +111,7 @@
   }
 
   form.addEventListener('submit', handleSearch);
+
+  renderToday();
+  renderIp();
 })();

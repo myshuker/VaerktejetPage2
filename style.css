@@ -55,6 +55,16 @@ body {
   letter-spacing: 0.02em;
 }
 
+.brand__meta {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.brand__meta-sep {
+  margin: 0 6px;
+}
+
 /* ---------- Lookup ---------- */
 
 .lookup {
