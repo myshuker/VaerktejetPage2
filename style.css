@@ -56,13 +56,10 @@ body {
 }
 
 .brand__meta {
-  margin: 8px 0 0;
-  color: var(--ink-soft);
-  font-size: 0.82rem;
-}
-
-.brand__meta-sep {
-  margin: 0 6px;
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 700;
 }
 
 /* ---------- Lookup ---------- */
