@@ -3,7 +3,6 @@
   const input = document.getElementById('tool-input');
   const resultBox = document.getElementById('result');
   const dateEl = document.getElementById('today-date');
-  const ipEl = document.getElementById('user-ip');
 
   const MONTH_NAMES = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -21,21 +20,6 @@
     const mon = MONTH_NAMES[now.getMonth()];
     const yyyy = now.getFullYear();
     dateEl.textContent = dd + mon + yyyy;
-  }
-
-  function renderIp() {
-    if (!ipEl) return;
-    fetch('https://api.ipify.org?format=json')
-      .then(function (res) {
-        if (!res.ok) throw new Error('IP lookup failed');
-        return res.json();
-      })
-      .then(function (data) {
-        ipEl.textContent = data.ip;
-      })
-      .catch(function () {
-        ipEl.textContent = 'unavailable';
-      });
   }
 
   function normalize(value) {
@@ -113,5 +97,4 @@
   form.addEventListener('submit', handleSearch);
 
   renderToday();
-  renderIp();
 })();
