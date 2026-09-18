@@ -54,7 +54,7 @@
   function validationMessage(status) {
     const s = normalize(status);
     if (s === 'active') return 'Værktøjet er SW valid';
-    if (s === 'obsolete') return 'Værktøjet er ikke valid';
+    if (s === 'obsolete') return 'Værktøjet er ikke SW valid';
     return '';
   }
 
