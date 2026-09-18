@@ -55,6 +55,22 @@ body {
   background: var(--paper);
 }
 
+.brand__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand__logo {
+  height: clamp(36px, 9vw, 64px);
+  width: auto;
+  max-width: 40%;
+  object-fit: contain;
+  display: block;
+}
+
 .brand__name {
   margin: 0;
   color: var(--cook-red);
@@ -230,6 +246,14 @@ body {
 @media (max-width: 480px) {
   .brand {
     padding: 32px 16px 24px;
+  }
+
+  .brand__row {
+    gap: 10px;
+  }
+
+  .brand__logo {
+    height: clamp(30px, 12vw, 44px);
   }
 
   .brand__tagline {
