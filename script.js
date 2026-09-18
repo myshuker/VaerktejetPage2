@@ -48,13 +48,13 @@
   }
 
   function renderError() {
-    return '<div class="result-error">Please check input or invalid input</div>';
+    return '<div class="result-error">Please check input or invalid Værktøj</div>';
   }
 
   function validationMessage(status) {
     const s = normalize(status);
-    if (s === 'active') return 'Værktøjet er SW valideret';
-    if (s === 'obsolete') return 'Værktøjet er ikke valideret';
+    if (s === 'active') return 'Værktøjet er SW valid';
+    if (s === 'obsolete') return 'Værktøjet er ikke valid';
     return '';
   }
 
