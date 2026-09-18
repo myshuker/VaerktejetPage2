@@ -44,9 +44,18 @@
       '<div class="result-error">Please check input or invalid input</div>';
   }
 
+  function validationMessage(status) {
+    const s = normalize(status);
+    if (s === 'active') return 'Værktøjet er SW valideret';
+    if (s === 'obsolete') return 'Værktøjet er ikke valideret';
+    return '';
+  }
+
   function renderResult(row) {
     const good = statusIsGood(row.status);
     const pillClass = good ? 'status-pill--green' : 'status-pill--red';
+    const message = validationMessage(row.status);
+    const messageClass = good ? 'result-note--green' : 'result-note--red';
 
     const rows = [
       { key: 'Tool ID (EQ-Number)', value: row.eq || '—' },
@@ -69,6 +78,10 @@
       '<span class="status-pill ' + pillClass + '">' + escapeHtml(row.status || '—') + '</span>' +
       '</span>' +
       '</div>';
+    if (message) {
+      html +=
+        '<div class="result-note ' + messageClass + '">' + escapeHtml(message) + '</div>';
+    }
     html += '</div>';
 
     resultBox.innerHTML = html;

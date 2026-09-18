@@ -223,6 +223,25 @@ body {
   background: var(--red-bg);
 }
 
+.result-note {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.result-note--green {
+  color: var(--green);
+  background: var(--green-bg);
+}
+
+.result-note--red {
+  color: var(--cook-red);
+  background: var(--red-bg);
+}
+
 .result-error {
   border: 1px solid #e7b8bf;
   border-radius: var(--radius);
