@@ -263,12 +263,6 @@ body {
 }
 
 @media (max-width: 480px) {
-  body {
-    border: 3px solid var(--cook-red);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
   .brand {
     padding: 32px 16px 24px;
   }
