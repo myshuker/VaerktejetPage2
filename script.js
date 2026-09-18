@@ -39,15 +39,22 @@
     return normalize(status) === 'active';
   }
 
+  function findProcessValid(query) {
+    const q = normalize(query);
+    if (!q) return false;
+    return PROCESS_TOOL_NUMBERS.some(function (t) {
+      return normalize(t) === q;
+    });
+  }
+
   function renderError() {
-    resultBox.innerHTML =
-      '<div class="result-error">Please check input or invalid input</div>';
+    return '<div class="result-error">Please check input or invalid input</div>';
   }
 
   function validationMessage(status) {
     const s = normalize(status);
-    if (s === 'active') return 'Værktøjet er SW valideret';
-    if (s === 'obsolete') return 'Værktøjet er ikke valideret';
+    if (s === 'active') return 'Værktøjet er SW valid';
+    if (s === 'obsolete') return 'Værktøjet er SW ikke valid';
     return '';
   }
 
@@ -84,7 +91,14 @@
     }
     html += '</div>';
 
-    resultBox.innerHTML = html;
+    return html;
+  }
+
+  function renderProcessValid(query) {
+    const found = findProcessValid(query);
+    const text = found ? 'Process Valid' : 'Not process Valid';
+    const cls = found ? 'result-note--green' : 'result-note--red';
+    return '<div class="result-note ' + cls + '">' + escapeHtml(text) + '</div>';
   }
 
   function escapeHtml(str) {
@@ -99,12 +113,10 @@
     const query = input.value;
     const row = findTool(query);
 
-    if (!row) {
-      renderError();
-      return;
-    }
+    const mainHtml = row ? renderResult(row) : renderError();
+    const processHtml = normalize(query) ? renderProcessValid(query) : '';
 
-    renderResult(row);
+    resultBox.innerHTML = mainHtml + processHtml;
   }
 
   form.addEventListener('submit', handleSearch);
