@@ -30,7 +30,7 @@
     const q = normalize(query);
     if (!q) return null;
 
-    return TOOL_DATA.find(function (row) {
+    return SW_TOOL_DATA.find(function (row) {
       return normalize(row.eq) === q || normalize(row.legacy) === q;
     }) || null;
   }
@@ -42,7 +42,7 @@
   function findProcessValid(query) {
     const q = normalize(query);
     if (!q) return false;
-    return PROCESS_TOOL_NUMBERS.some(function (t) {
+    return PROCESS_TOOL_DATA.some(function (t) {
       return normalize(t) === q;
     });
   }
