@@ -264,7 +264,7 @@ body {
 
 @media (max-width: 480px) {
   .brand {
-    padding: 32px 16px 24px;
+    padding: 25px 16px 10px;
   }
 
   .brand__row {
@@ -298,4 +298,12 @@ body {
   .result-card__row {
     padding: 8px 0;
   }
+}
+
+/* Tool picture shown when a matching image is found in images/ */
+.result-card__img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  display: block;
 }

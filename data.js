@@ -1,5 +1,5 @@
-// Data extracted from D00174522-Rev103.xlsx (sheet "D00174522")
-// Columns used: Tool ID (EQ-Number), Tool ID (Legacy number), Status, Equipment name
+// Data extracted from D00174522-Rev103.xlsx
+
 const SW_TOOL_DATA = [
   {
     eq: "EQ00011597",
@@ -3723,10 +3723,8 @@ const SW_TOOL_DATA = [
     name: "Inkjet pinpoint A200",
   },
 ];
-// Data extracted from D00018073-Rev075.xlsx (sheet "PVR"), column "Tool no."
-// Only rows with Status = Valid / Valid - Monitored are included (Excel row 254 onward)
-// Parentheses and slash-suffix groups (e.g. 52827-(A/B), 154307-B/C) are expanded
-// Tokens with more than one dash keep only what's before the second dash
+// Data extracted from D00018073-Rev075.xlsx
+
 const PROCESS_TOOL_DATA = [
   "1019591",
   "1068713",
