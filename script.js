@@ -25,10 +25,33 @@
   const IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "webp", "gif"];
   let imageToken = 0; // cancels outdated probes while typing
 
-  function buildImageCandidates(query) {
+  // Builds the list of picture paths to try for a search.
+  // "extraNames" are other numbers for the same tool (EQ / legacy number)
+  // found in the Excel data – used only as a bonus, never required.
+  function buildImageCandidates(query, extraNames) {
     const raw = String(query || "").trim();
     if (!raw) return [];
-    const names = [raw, raw.toLowerCase()];
+
+    const names = [];
+    function addName(n) {
+      n = String(n || "").trim();
+      if (!n) return;
+      [n, n.toLowerCase(), n.toUpperCase()].forEach(function (v) {
+        if (names.indexOf(v) === -1) names.push(v);
+      });
+    }
+
+    // Remove a letter suffix and search only on the number:
+    // "52089-J" -> "52089", "D00200779-B" -> "D00200779"
+    function stripSuffix(n) {
+      return String(n || "").trim().replace(/-[A-Za-zÆØÅæøå]*$/, "");
+    }
+
+    addName(stripSuffix(raw));
+    (extraNames || []).forEach(function (n) {
+      addName(stripSuffix(n));
+    });
+
     const cands = [];
     names.forEach(function (n) {
       IMAGE_EXTENSIONS.forEach(function (ext) {
@@ -38,12 +61,64 @@
     // Optional manifest (define TOOL_IMAGE_FILES in data.js if you want
     // substring matching against known filenames)
     if (Array.isArray(window.TOOL_IMAGE_FILES)) {
-      const q = normalize(raw);
+      const q = normalize(stripSuffix(raw));
       window.TOOL_IMAGE_FILES.forEach(function (file) {
         if (normalize(file).indexOf(q) !== -1)
-          cands.push("images/tools/" + file);
+          cands.push("images/tools/" + encodeURIComponent(file));
       });
     }
+    return cands;
+  }
+
+  // Optional: map an Equipment name to a picture whose file name is
+  // different (e.g. Danish file names). Keys are lowercase names.
+  // Add more lines here when you add pictures.
+  const NAME_IMAGE_ALIASES = {
+    "balloon machine": "Ballonmaskine.jpg",
+    "laser welder": "Lasersvejser.jpg",
+    "loading machine": "Loademaskine.png",
+    "leg cutting tool": "Benklippeværktøj.jpg",
+    "pulling machine": "Nedtrækningsmaskine.jpg",
+    "uv lamp": "UV lamp.jpg",
+    "water jacket": "Water Jacket.png",
+  };
+
+  // Fallback: picture paths built from the Equipment name, e.g.
+  // "UV_lamp" -> "UV lamp.jpg", "UV-lamp.jpg", "uv_lamp.jpg" ...
+  function buildNameImageCandidates(name) {
+    const raw = String(name || "").trim();
+    if (!raw) return [];
+
+    const cands = [];
+    function addFile(file) {
+      const path = "images/tools/" + encodeURIComponent(file);
+      if (cands.indexOf(path) === -1) cands.push(path);
+    }
+
+    // 1) Alias list (spaces, "_" and "-" treated the same)
+    const key = raw.toLowerCase().replace(/[\s_-]+/g, " ");
+    if (NAME_IMAGE_ALIASES[key]) addFile(NAME_IMAGE_ALIASES[key]);
+
+    // 2) File named after the Equipment name
+    const words = raw.split(/[\s_-]+/).filter(Boolean);
+    const lower = words.map(function (w) { return w.toLowerCase(); });
+    const title = lower.map(function (w) {
+      return w.charAt(0).toUpperCase() + w.slice(1);
+    });
+    const sentence = lower.map(function (w, i) {
+      return i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w;
+    });
+    const wordSets = [words, sentence, title, lower,
+      words.map(function (w) { return w.toUpperCase(); })];
+
+    [" ", "_", "-"].forEach(function (sep) {
+      wordSets.forEach(function (ws) {
+        const n = ws.join(sep);
+        IMAGE_EXTENSIONS.forEach(function (ext) {
+          addFile(n + "." + ext);
+        });
+      });
+    });
     return cands;
   }
 
@@ -67,21 +142,38 @@
     });
   }
 
-  function updateToolImage(query) {
+  function updateToolImage(query, extraNames, equipmentName) {
     const token = ++imageToken;
-    const imgEl = document.getElementById("tool-image");
-    if (!imgEl) return;
-    probeImage(buildImageCandidates(query)).then(function (src) {
+    // First try by number; if nothing is found, try by Equipment name
+    const candidates = buildImageCandidates(query, extraNames).concat(
+      buildNameImageCandidates(equipmentName)
+    );
+    probeImage(candidates).then(function (src) {
       if (token !== imageToken) return; // a newer search started
+      const box = document.getElementById("tool-image-box");
+      const imgEl = document.getElementById("tool-image");
+      if (!box || !imgEl) return;
       if (src) {
         imgEl.src = src;
-        imgEl.style.display = "";
-        imgEl.closest(".result-card__row").style.display = "";
+        box.style.display = "";
       } else {
-        imgEl.style.display = "none";
-        imgEl.closest(".result-card__row").style.display = "none";
+        box.style.display = "none";
       }
     });
+  }
+
+  function renderImageBox() {
+    // Hidden until a matching picture is found in images/tools/
+    return (
+      '<div class="result-card result-image" id="tool-image-box" style="display:none">' +
+      '<div class="result-card__row">' +
+      '<span class="result-card__key">Billede</span>' +
+      '<span class="result-card__value">' +
+      '<img id="tool-image" class="result-card__img" width="150" height="150" alt="Billede af værktøjet">' +
+      "</span>" +
+      "</div>" +
+      "</div>"
+    );
   }
   // ------------------------------------------------------------------
 
@@ -110,7 +202,13 @@
 
     return (
       SW_TOOL_DATA.find(function (row) {
-        return normalize(row.eq) === q || normalize(row.legacy) === q;
+        // Search in 3 columns from D00174522:
+        // Tool ID (EQ-Number), Tool ID (D-number), Tool ID (Legacy number)
+        return (
+          normalize(row.eq) === q ||
+          normalize(row.dnum) === q ||
+          normalize(row.legacy) === q
+        );
       }) || null
     );
   }
@@ -128,13 +226,13 @@
   }
 
   function renderError() {
-    return '<div class="result-error">Please check input or Not SW Valid</div>';
+    return '<div class="result-error">Please check input</div>';
   }
 
   function validationMessage(status) {
     const s = normalize(status);
     if (s === "active") return "Værktøjet er SW valid";
-    if (s === "obsolete") return "Værktøjet er ikke valid";
+    if (s === "obsolete") return "Not SW Valid";
     return "";
   }
 
@@ -147,14 +245,6 @@
     const rows = [{ key: "Equipment name", value: row.name || "—" }];
 
     let html = '<div class="result-card">';
-    // Picture row – hidden until a matching image is found in images/
-    html +=
-      '<div class="result-card__row" id="tool-image-row" style="display:none">' +
-      '<span class="result-card__key">Billede</span>' +
-      '<span class="result-card__value">' +
-      '<img id="tool-image" class="result-card__img" width="150" height="150" alt="">' +
-      "</span>" +
-      "</div>";
     rows.forEach(function (r) {
       html +=
         '<div class="result-card__row">' +
@@ -209,15 +299,24 @@
   function runSearch() {
     const query = input.value;
     const row = findTool(query);
+    const hasQuery = normalize(query) !== "";
 
     const mainHtml = row ? renderResult(row) : renderError();
-    const processHtml = normalize(query) ? renderProcessValid(query) : "";
+    const processHtml = hasQuery ? renderProcessValid(query) : "";
+    const imageHtml = hasQuery ? renderImageBox() : "";
 
-    resultBox.innerHTML = mainHtml + processHtml;
+    resultBox.innerHTML = imageHtml + mainHtml + processHtml;
 
-    // Automatically search images/ for a picture matching the input
-    if (row) {
-      updateToolImage(query);
+    // Always look for a picture in images/tools/ – whether or not the
+    // input was found in the Excel data. If found, it is shown.
+    if (hasQuery) {
+      updateToolImage(
+        query,
+        row ? [row.eq, row.dnum, row.legacy] : [],
+        row ? row.name : ""
+      );
+    } else {
+      imageToken++; // cancel any running image search
     }
   }
 

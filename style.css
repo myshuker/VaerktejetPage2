@@ -307,3 +307,8 @@ body {
   object-fit: contain;
   display: block;
 }
+
+/* Picture box shown above the result (independent of Excel match) */
+.result-image {
+  margin-bottom: 12px;
+}
