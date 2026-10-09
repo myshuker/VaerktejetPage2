@@ -312,3 +312,21 @@ body {
 .result-image {
   margin-bottom: 12px;
 }
+
+/* ---------- Center all search results ---------- */
+.result,
+.result-error,
+.result-card,
+.result-card__key,
+.result-card__value,
+.result-note {
+  text-align: center;
+}
+
+.result-card__row {
+  align-items: center;
+}
+
+.result-card__img {
+  margin: 0 auto;
+}
