@@ -226,7 +226,7 @@
   }
 
   function renderError() {
-    return '<div class="result-error">Please check input</div>';
+    return '<div class="result-error">Please check input or Værktøjet ikke på SW Valid list</div>';
   }
 
   function validationMessage(status) {
