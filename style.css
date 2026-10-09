@@ -314,19 +314,34 @@ body {
 }
 
 /* ---------- Center all search results ---------- */
+.lookup__form,
+.result {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .result,
 .result-error,
 .result-card,
+.result-card__row,
 .result-card__key,
 .result-card__value,
 .result-note {
-  text-align: center;
+  text-align: center !important;
 }
 
 .result-card__row {
-  align-items: center;
+  align-items: stretch;
+}
+
+.result-card__key,
+.result-card__value {
+  display: block;
+  width: 100%;
 }
 
 .result-card__img {
+  display: block;
   margin: 0 auto;
+  max-width: 100%;
 }
