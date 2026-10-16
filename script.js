@@ -373,6 +373,7 @@
   });
 
   nameInput.addEventListener("input", function () {
+    input.value = ""; // the number no longer matches the name
     suggestions = findSuggestions(nameInput.value);
     activeIndex = -1;
     renderSuggestions();
@@ -396,9 +397,12 @@
 
   nameInput.addEventListener("blur", closeSuggestions);
 
+  // Søg searches the number, or the best name match if only a name is typed
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    runSearch();
+    const best = !normalize(input.value) && findSuggestions(nameInput.value)[0];
+    if (best) chooseSuggestion(best);
+    else runSearch();
   });
 
   renderToday();

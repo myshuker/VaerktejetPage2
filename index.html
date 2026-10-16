@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
 <link rel="shortcut icon" href="images/favicon.ico">
-<link rel="stylesheet" href="style.css?v=17">
+<link rel="stylesheet" href="style.css?v=18">
 </head>
 <body>
 
@@ -27,16 +27,13 @@
   <main class="lookup">
     <form id="lookup-form" class="lookup__form" autocomplete="off">
       <label for="tool-input" class="lookup__label">Værktøjet nummer</label>
-      <div class="lookup__row">
-        <input
-          type="text"
-          id="tool-input"
-          class="lookup__input"
-          placeholder="fx. EQ00011597 eller 52580"
-          inputmode="text"
-        >
-        <button type="submit" class="lookup__button">Søg</button>
-      </div>
+      <input
+        type="text"
+        id="tool-input"
+        class="lookup__input"
+        placeholder="fx. EQ00011597 eller 52580"
+        inputmode="text"
+      >
 
       <label for="name-input" class="lookup__label lookup__label--name">Værktøj navn</label>
       <div class="suggest">
@@ -52,6 +49,8 @@
         >
         <ul id="name-suggestions" class="suggestions" role="listbox" hidden></ul>
       </div>
+
+      <button type="submit" class="lookup__button">Søg</button>
     </form>
 
     <section id="result" class="result" aria-live="polite"></section>
@@ -61,8 +60,8 @@
     <p>Data: D00174522-Rev103.xlsx, D00018073-Rev075.xlsx, værktøj.xlsx</p>
   </footer>
 
-  <script src="data.js?v=17"></script>
-  <script src="asset-data.js?v=17"></script>
-  <script src="script.js?v=17"></script>
+  <script src="data.js?v=18"></script>
+  <script src="asset-data.js?v=18"></script>
+  <script src="script.js?v=18"></script>
 </body>
 </html>

@@ -104,9 +104,22 @@ body {
   padding: 56px 20px;
 }
 
+/* Labels and inputs on the left, one Søg button beside both inputs */
 .lookup__form {
   width: 100%;
   max-width: 480px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+}
+
+.lookup__form > :not(.lookup__button) {
+  grid-column: 1;
+}
+
+.lookup__form > .lookup__button {
+  grid-column: 2;
+  grid-row: 2 / 5;
 }
 
 .lookup__label {
@@ -117,13 +130,10 @@ body {
   margin-bottom: 10px;
 }
 
-.lookup__row {
-  display: flex;
-  gap: 10px;
-}
-
 .lookup__input {
   flex: 1;
+  width: 100%;
+  min-width: 0;
   padding: 14px 16px;
   font-size: 1.05rem;
   border: 1px solid #c9c7c2;
@@ -359,12 +369,15 @@ body {
     padding: 32px 16px;
   }
 
-  .lookup__row {
-    flex-direction: column;
+  /* Søg button below both inputs */
+  .lookup__form {
+    grid-template-columns: 1fr;
   }
 
-  .lookup__button {
-    width: 100%;
+  .lookup__form > .lookup__button {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 12px;
   }
 
   .result-card {
