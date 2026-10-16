@@ -7,13 +7,14 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
 1. Åbn `index.html` i en browser. Der kræves ingen server eller internetforbindelse.
 2. Søg på en af to måder:
    - **Værktøjet nummer:** Skriv nummeret, fx `EQ00011597`, `52580`, `52580-C` eller et Asset-nummer som `1006378`. Resultatet vises mens du skriver, eller når du trykker på **Søg**.
-   - **Værktøj navn:** Skriv en del af navnet, fx `balloon` eller `ballonmaskine ø2`. Der vises forslag med navn, nummer og status. Vælg et forslag med musen eller med piletasterne og Enter.
+   - **Værktøj navn:** Skriv en del af navnet, fx `balloon` eller `ballonmaskine ø2`. Der vises forslag med værktøjets navn. Vælg et forslag med musen eller med piletasterne og Enter.
 
 ## Hvad viser siden
 
 | Resultat | Kilde |
 |---|---|
-| **Equipment name** og **Status** | `SW_TOOL_DATA` i `data.js` (fra D00174522-Rev103.xlsx) |
+| **Equipment name** | Kolonnen **Description** i `ASSET_DATA` i `asset-data.js` (fra værktøj.xlsx). Hvis nummeret ikke findes dér: navnet fra `SW_TOOL_DATA` |
+| **Status** (Active/Obsolete) | `SW_TOOL_DATA` i `data.js` (fra D00174522-Rev104.xlsx) |
 | `Active` → "Værktøjet er SW valid" (grøn) | |
 | `Obsolete` → "Not SW Valid" (rød) | |
 | **Quality Risk Group** og **Status (værktøj)** | `ASSET_DATA` i `asset-data.js` (fra værktøj.xlsx) |
@@ -54,7 +55,7 @@ Rækkefølgen for billedsøgningen:
 1. **Det fulde nummer** som indtastet, derefter værktøjets andre numre fra data. Eksempel: `153916-A.jpg`
 2. **Nummeret uden bogstav-endelsen**. Eksempel: `52827-A` → `52827.jpg`
 3. **Et alias** fra listen `NAME_IMAGE_ALIASES` i `script.js`. Eksempel: `Balloon Machine` → `Ballonmaskine.jpg`
-4. **Equipment name** skrevet på flere måder. Eksempel: `Laser welder.jpg`
+4. **Navnet fra SW-data** (D00174522) skrevet på flere måder. Eksempel: `Laser welder.jpg`
 
 **Sådan tilføjer du et billede:** Læg filen i `images/tools/` og navngiv den efter værktøjets nummer, fx `52580.jpg`.
 Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `NAME_IMAGE_ALIASES`:
@@ -70,4 +71,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=18` i `index.html` (fx til `?v=19`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=22` i `index.html` (fx til `?v=23`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.

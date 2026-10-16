@@ -117,13 +117,6 @@
     return hits.slice(0, MAX_SUGGESTIONS).map(function (h) { return h.row; });
   }
 
-  // e.g. "52580 · EQ00011638 · Installed" (EQ left out if already in Alias)
-  function assetLabel(row) {
-    const id = row[A_ALIAS] || row[A_ASSET];
-    const eq = id.indexOf(row[A_CATEGORY]) === 0 ? "" : row[A_CATEGORY];
-    return [id, eq, row[A_STATUS]].filter(Boolean).join(" · ");
-  }
-
   function renderSuggestions() {
     suggestionList.innerHTML = "";
     suggestions.forEach(function (row, i) {
@@ -132,14 +125,7 @@
         (i === activeIndex ? " suggestions__item--active" : "");
       li.setAttribute("role", "option");
 
-      const name = document.createElement("span");
-      name.className = "suggestions__name";
-      name.textContent = row[A_DESC];
-      const meta = document.createElement("span");
-      meta.className = "suggestions__meta";
-      meta.textContent = assetLabel(row);
-      li.appendChild(name);
-      li.appendChild(meta);
+      li.textContent = row[A_DESC];
 
       // mousedown fires before the input loses focus
       li.addEventListener("mousedown", function (event) {
@@ -297,14 +283,27 @@
     return '<div class="result-error">Please check input or Værktøjet ikke på SW Valid list</div>';
   }
 
-  function renderResult(tool) {
+  // Distinct values of one værktøj.xlsx column. Several rows (same
+  // EQ-number) are joined, e.g. "Installed, Retired".
+  function assetValues(assets, col) {
+    const list = [];
+    assets.forEach(function (a) {
+      if (a[col] && list.indexOf(a[col]) === -1) list.push(a[col]);
+    });
+    return escapeHtml(list.join(", ") || "—");
+  }
+
+  // Equipment name is the Description from værktøj.xlsx, or the SW name
+  // if the number is not in værktøj.xlsx
+  function renderResult(tool, assets) {
     const status = normalize(tool.status);
     const good = status === "active";
     const message = good ? "Værktøjet er SW valid"
       : status === "obsolete" ? "Not SW Valid" : "";
 
     return '<div class="result-card">' +
-      row("Equipment name", escapeHtml(tool.name || "—")) +
+      row("Equipment name", assets.length ? assetValues(assets, A_DESC)
+        : escapeHtml(tool.name || "—")) +
       row("Status", '<span class="status-pill ' +
         (good ? "status-pill--green" : "status-pill--red") + '">' +
         escapeHtml(tool.status || "—") + "</span>") +
@@ -312,19 +311,10 @@
       "</div>";
   }
 
-  // Values from værktøj.xlsx. Several rows (same EQ-number) are shown as
-  // their distinct values, e.g. "Installed, Retired".
   function renderAssetInfo(assets) {
-    function values(col) {
-      const list = [];
-      assets.forEach(function (a) {
-        if (a[col] && list.indexOf(a[col]) === -1) list.push(a[col]);
-      });
-      return escapeHtml(list.join(", ") || "—");
-    }
     return '<div class="result-card result-asset">' +
-      row("Quality Risk Group", values(A_QRG)) +
-      row("Status (værktøj)", values(A_STATUS)) +
+      row("Quality Risk Group", assetValues(assets, A_QRG)) +
+      row("Status (værktøj)", assetValues(assets, A_STATUS)) +
       "</div>";
   }
 
@@ -354,7 +344,7 @@
 
     resultBox.innerHTML =
       renderImageBox() +
-      (tool ? renderResult(tool) : renderError()) +
+      (tool ? renderResult(tool, assets) : renderError()) +
       note(processValid ? "Process Valid" : "Not process Valid", processValid) +
       (assets.length ? renderAssetInfo(assets) : "");
 

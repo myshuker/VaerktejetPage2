@@ -1,4 +1,4 @@
-// Data extracted from D00174522-Rev103.xlsx
+// Data extracted from D00174522-Rev104.xlsx
 // Searched columns: eq = Tool ID (EQ-Number), dnum = Tool ID (D-number),
 // legacy = Tool ID (Legacy number). other = Tool ID (Other) (not searched)
 
@@ -484,7 +484,7 @@ const SW_TOOL_DATA = [
   {"eq": "EQ00011550", "dnum": "", "legacy": "51710", "other": "", "status": "Obsolete", "name": "Incubator"},
   {"eq": "EQ00011804", "dnum": "", "legacy": "D00194596-A", "other": "", "status": "Obsolete", "name": "Analytical Balance"},
   {"eq": "EQ00011804", "dnum": "", "legacy": "D00194596-A", "other": "", "status": "Obsolete", "name": "Analytical balance"},
-  {"eq": "EQ00000203", "dnum": "", "legacy": "", "other": "", "status": "Active", "name": "Momentskruetrækker"},
+  {"eq": "EQ00000203", "dnum": "", "legacy": "", "other": "", "status": "Obsolete", "name": "Momentskruetrækker"},
   {"eq": "EQ00011519", "dnum": "", "legacy": "51172", "other": "", "status": "Obsolete", "name": "Precision Balances"},
   {"eq": "EQ00011527", "dnum": "", "legacy": "", "other": "", "status": "Active", "name": "Tensile tester"},
   {"eq": "EQ00011703", "dnum": "", "legacy": "52882", "other": "", "status": "Obsolete", "name": "Weight"},

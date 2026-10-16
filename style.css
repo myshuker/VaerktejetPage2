@@ -200,23 +200,13 @@ body {
 
 .suggestions__item {
   padding: 8px 14px;
+  font-size: 0.98rem;
   cursor: pointer;
 }
 
 .suggestions__item:hover,
 .suggestions__item--active {
   background: var(--red-bg);
-}
-
-.suggestions__name {
-  display: block;
-  font-size: 0.98rem;
-}
-
-.suggestions__meta {
-  display: block;
-  font-size: 0.82rem;
-  color: var(--ink-soft);
 }
 
 /* ---------- Result ---------- */
