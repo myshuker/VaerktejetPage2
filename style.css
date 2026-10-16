@@ -160,6 +160,55 @@ body {
   outline-offset: 2px;
 }
 
+/* ---------- Name search with suggestions ---------- */
+
+.lookup__label--name {
+  margin-top: 20px;
+}
+
+.suggest {
+  position: relative;
+  display: flex;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 4px 0 0;
+  padding: 4px 0;
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.suggestions__item {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.suggestions__item:hover,
+.suggestions__item--active {
+  background: var(--red-bg);
+}
+
+.suggestions__name {
+  display: block;
+  font-size: 0.98rem;
+}
+
+.suggestions__meta {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
 /* ---------- Result ---------- */
 
 .result {
@@ -214,6 +263,23 @@ body {
 /* Picture box shown above the result */
 .result-image {
   margin-bottom: 12px;
+}
+
+/* Quality Risk Group and Status from værktøj.xlsx, side by side */
+.result-asset {
+  display: flex;
+  margin-top: 12px;
+}
+
+.result-asset .result-card__row {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-bottom: none;
+}
+
+.result-asset .result-card__row + .result-card__row {
+  border-left: 1px solid var(--line);
 }
 
 .status-pill {

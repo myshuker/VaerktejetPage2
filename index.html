@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
 <link rel="shortcut icon" href="images/favicon.ico">
-<link rel="stylesheet" href="style.css?v=14">
+<link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
 
@@ -37,16 +37,32 @@
         >
         <button type="submit" class="lookup__button">Søg</button>
       </div>
+
+      <label for="name-input" class="lookup__label lookup__label--name">Værktøj navn</label>
+      <div class="suggest">
+        <input
+          type="text"
+          id="name-input"
+          class="lookup__input"
+          placeholder="fx. Balloon machine"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="name-suggestions"
+        >
+        <ul id="name-suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
     </form>
 
     <section id="result" class="result" aria-live="polite"></section>
   </main>
 
   <footer class="footer">
-    <p>Data: D00174522-Rev103.xlsx, D00018073-Rev075.xlsx</p>
+    <p>Data: D00174522-Rev103.xlsx, D00018073-Rev075.xlsx, værktøj.xlsx</p>
   </footer>
 
-  <script src="data.js?v=14"></script>
-  <script src="script.js?v=14"></script>
+  <script src="data.js?v=17"></script>
+  <script src="asset-data.js?v=17"></script>
+  <script src="script.js?v=17"></script>
 </body>
 </html>
