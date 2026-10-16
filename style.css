@@ -131,7 +131,7 @@ body {
 }
 
 .lookup__input {
-  flex: 1;
+  display: block;
   width: 100%;
   min-width: 0;
   padding: 14px 16px;
@@ -178,7 +178,6 @@ body {
 
 .suggest {
   position: relative;
-  display: flex;
 }
 
 .suggestions {

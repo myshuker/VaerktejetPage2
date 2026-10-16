@@ -124,7 +124,6 @@
       li.className = "suggestions__item" +
         (i === activeIndex ? " suggestions__item--active" : "");
       li.setAttribute("role", "option");
-
       li.textContent = row[A_DESC];
 
       // mousedown fires before the input loses focus
@@ -212,12 +211,21 @@
       });
     });
 
-    const paths = [];
-    files.forEach(function (file) {
-      const path = IMAGE_DIR + encodeURIComponent(file);
-      if (paths.indexOf(path) === -1) paths.push(path);
+    return files.map(function (file) {
+      return IMAGE_DIR + encodeURIComponent(file);
     });
-    return paths;
+  }
+
+  // Names to try from a Description (værktøj.xlsx): the full text, each
+  // part around " - " and each part without "(...)".
+  // "Balloon machine - Ballonmaskine (Ø2)" -> "Balloon machine - Ballonmaskine (Ø2)",
+  // "Balloon machine", "Ballonmaskine (Ø2)", "Ballonmaskine"
+  function descriptionNames(desc) {
+    const names = [desc];
+    String(desc || "").split(/\s+-\s+/).forEach(function (part) {
+      names.push(part, part.replace(/\s*\([^)]*\)/g, ""));
+    });
+    return names;
   }
 
   // Resolves with the first path that loads, or null
@@ -238,10 +246,17 @@
     });
   }
 
-  function updateToolImage(numbers, equipmentName) {
+  // Tries the numbers first, then each name in order (SW name, Descriptions)
+  function updateToolImage(numbers, names) {
     const token = ++imageToken;
-    const candidates = buildNumberCandidates(numbers)
-      .concat(buildNameCandidates(equipmentName));
+    const candidates = [];
+    function add(path) {
+      if (candidates.indexOf(path) === -1) candidates.push(path);
+    }
+    buildNumberCandidates(numbers).forEach(add);
+    names.forEach(function (name) {
+      buildNameCandidates(name).forEach(add);
+    });
 
     probeImage(candidates).then(function (src) {
       if (token !== imageToken) return; // a newer search started
@@ -348,10 +363,15 @@
       note(processValid ? "Process Valid" : "Not process Valid", processValid) +
       (assets.length ? renderAssetInfo(assets) : "");
 
-    // Look for a picture whether or not the tool was found in the data
+    // Look for a picture whether or not the tool was found in the data:
+    // by number, then by the SW name, then by the Description
+    let names = [tool ? tool.name : ""];
+    assets.forEach(function (a) {
+      names = names.concat(descriptionNames(a[A_DESC]));
+    });
     updateToolImage(
       (tool ? [query, tool.eq, tool.dnum, tool.legacy] : [query]).concat(ids.slice(1)),
-      tool ? tool.name : ""
+      names
     );
   }
 

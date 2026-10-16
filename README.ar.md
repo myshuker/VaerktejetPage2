@@ -56,6 +56,7 @@ images/tools/     صور الأدوات
 2. **الرقم بدون الحرف الأخير**. مثال: `52827-A` ← `52827.jpg`
 3. **اسم مستعار** من قائمة `NAME_IMAGE_ALIASES` في `script.js`. مثال: `Balloon Machine` ← `Ballonmaskine.jpg`
 4. **اسم المعدّة من بيانات SW** (D00174522) بعدة صيغ. مثال: `Laser welder.jpg`
+5. **Description من værktøj.xlsx**: النص كاملاً، ثم كل جزء حول " - "، ثم كل جزء بدون "(...)". مثال: `Laser welder - Lasersvejser` ← `Laser welder` ← الاسم المستعار `Lasersvejser.jpg`. الخطوتان 3 و 4 تُطبَّقان أيضاً على كل اسم من هذه الأسماء.
 
 **لإضافة صورة:** ضع الملف في `images/tools/` باسم رقم الأداة، مثل `52580.jpg`.
 وإذا كان اسم الملف مختلفاً عن اسم المعدّة، أضف سطراً إلى `NAME_IMAGE_ALIASES`:
@@ -71,4 +72,4 @@ images/tools/     صور الأدوات
 1. استبدل محتوى `SW_TOOL_DATA` أو `PROCESS_TOOL_DATA` في `data.js` بالبيانات الجديدة من ملفات Excel.
    لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html`.
-3. **كبّر رقم الإصدار** `?v=22` في `index.html` (مثلاً إلى `?v=23`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+3. **كبّر رقم الإصدار** `?v=24` في `index.html` (مثلاً إلى `?v=25`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.

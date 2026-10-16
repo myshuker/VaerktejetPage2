@@ -56,6 +56,7 @@ Rækkefølgen for billedsøgningen:
 2. **Nummeret uden bogstav-endelsen**. Eksempel: `52827-A` → `52827.jpg`
 3. **Et alias** fra listen `NAME_IMAGE_ALIASES` i `script.js`. Eksempel: `Balloon Machine` → `Ballonmaskine.jpg`
 4. **Navnet fra SW-data** (D00174522) skrevet på flere måder. Eksempel: `Laser welder.jpg`
+5. **Description fra værktøj.xlsx**: hele teksten, hver del omkring " - " og hver del uden "(...)". Eksempel: `Laser welder - Lasersvejser` → `Laser welder` → alias `Lasersvejser.jpg`. Trin 3 og 4 bruges også på hver af disse navne.
 
 **Sådan tilføjer du et billede:** Læg filen i `images/tools/` og navngiv den efter værktøjets nummer, fx `52580.jpg`.
 Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `NAME_IMAGE_ALIASES`:
@@ -71,4 +72,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=22` i `index.html` (fx til `?v=23`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=24` i `index.html` (fx til `?v=25`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
