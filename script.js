@@ -75,6 +75,12 @@
     });
   }
 
+  // The number before the first "-": "154426-1,30-∞_ID5247" -> "154426"
+  function baseNumber(id) {
+    const i = id.indexOf("-");
+    return i > 0 ? id.slice(0, i) : "";
+  }
+
   // Rows from værktøj.xlsx matching Alias, then Asset, then Category (EQ).
   // Category can match several rows (one EQ-number, several assets).
   function findAssets(q) {
@@ -159,7 +165,8 @@
 
   // Picture paths from the tool numbers, in original, lower and upper case.
   // The full name is tried first ("52089-J"), then without the letter
-  // suffix ("52089").
+  // suffix ("52089"), then the number before the first "-"
+  // ("154426-1,30-∞_ID5247" -> "154426").
   function buildNumberCandidates(numbers) {
     const names = [];
     function addName(n) {
@@ -172,6 +179,9 @@
     trimmed.forEach(addName);
     trimmed.forEach(function (n) {
       addName(n.replace(/-[A-Za-zÆØÅæøå]*$/, ""));
+    });
+    trimmed.forEach(function (n) {
+      addName(baseNumber(n));
     });
 
     const paths = [];
@@ -353,6 +363,14 @@
     if (!tool && assets.length) {
       if (assets.length === 1) ids.push(normalize(assets[0][A_ALIAS]));
       ids.push(normalize(assets[0][A_CATEGORY]));
+      ids.some(function (id) { return id && (tool = findTool(id)); });
+    }
+    // Still not found: try the number before the first "-" of each id
+    if (!tool) {
+      ids.slice().forEach(function (id) {
+        const base = baseNumber(id);
+        if (base && ids.indexOf(base) === -1) ids.push(base);
+      });
       ids.some(function (id) { return id && (tool = findTool(id)); });
     }
     const processValid = ids.some(function (id) { return id && isProcessValid(id); });

@@ -30,6 +30,8 @@ Navnesøgningen bruger kolonnen **Description** i værktøj.xlsx. Alle indtasted
 
 Hvis et Asset-nummer ikke findes i SW-data, bruger siden værktøjets Alias og EQ-nummer fra værktøj.xlsx i stedet. Når et EQ-nummer dækker flere assets, vises alle de forskellige værdier, fx "Installed, Retired".
 
+Findes nummeret stadig ikke, søger siden med nummeret før den første "-", fx `154426-1,30-∞_ID5247` → `154426`. Det gælder SW-status, Process Valid og billedet.
+
 Søgningen skelner ikke mellem store og små bogstaver.
 
 Hvis nummeret ikke findes, vises beskeden: "Please check input or Værktøjet ikke på SW Valid list".
@@ -53,7 +55,7 @@ En browser kan ikke se, hvilke filer der ligger i en mappe. Derfor prøver siden
 Rækkefølgen for billedsøgningen:
 
 1. **Det fulde nummer** som indtastet, derefter værktøjets andre numre fra data. Eksempel: `153916-A.jpg`
-2. **Nummeret uden bogstav-endelsen**. Eksempel: `52827-A` → `52827.jpg`
+2. **Nummeret uden bogstav-endelsen**, derefter **nummeret før den første "-"**. Eksempel: `52827-A` → `52827.jpg`, `153227-∞` → `153227.jpg`
 3. **Et alias** fra listen `NAME_IMAGE_ALIASES` i `script.js`. Eksempel: `Balloon Machine` → `Ballonmaskine.jpg`
 4. **Navnet fra SW-data** (D00174522) skrevet på flere måder. Eksempel: `Laser welder.jpg`
 5. **Description fra værktøj.xlsx**: hele teksten, hver del omkring " - " og hver del uden "(...)". Eksempel: `Laser welder - Lasersvejser` → `Laser welder` → alias `Lasersvejser.jpg`. Trin 3 og 4 bruges også på hver af disse navne.
@@ -72,4 +74,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=24` i `index.html` (fx til `?v=25`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=25` i `index.html` (fx til `?v=26`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
