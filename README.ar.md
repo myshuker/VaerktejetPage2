@@ -24,7 +24,7 @@
 البحث بالرقم يستخدم هذه الأعمدة:
 
 - في بيانات SW: `eq` (EQ-Number) و `dnum` (D-number) و `legacy` (Legacy number).
-- في værktøj.xlsx: **Alias** و **Asset** و **Category** (رقم EQ).
+- في værktøj.xlsx: **Alias** و **Asset** و **Category** (رقم EQ). وإذا لم يوجد شيء، يُقارَن برقم Alias الذي قبل أول "-"، مثل `154071` يجد `154071-∞_ID3980`.
 
 البحث بالاسم يستخدم عمود **Description** في værktøj.xlsx. يجب أن تكون كل الكلمات المكتوبة موجودة في الاسم، بأي ترتيب.
 
@@ -34,7 +34,7 @@
 
 البحث لا يفرّق بين الحروف الكبيرة والصغيرة.
 
-إذا لم يجد البرنامج الرقم تظهر رسالة: "Please check input or Værktøjet ikke på SW Valid list".
+إذا كانت الأداة موجودة في værktøj.xlsx فقط، يظهر Equipment name مع رسالة "Værktøjet ikke på SW Valid list". وإذا لم يوجد الرقم أبداً تظهر رسالة: "Please check input or Værktøjet ikke på SW Valid list".
 
 ## الملفات
 
@@ -74,4 +74,4 @@ images/tools/     صور الأدوات
 1. استبدل محتوى `SW_TOOL_DATA` أو `PROCESS_TOOL_DATA` في `data.js` بالبيانات الجديدة من ملفات Excel.
    لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html`.
-3. **كبّر رقم الإصدار** `?v=25` في `index.html` (مثلاً إلى `?v=26`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+3. **كبّر رقم الإصدار** `?v=27` في `index.html` (مثلاً إلى `?v=28`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.

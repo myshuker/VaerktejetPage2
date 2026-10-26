@@ -24,7 +24,7 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
 Nummersøgningen bruger disse kolonner:
 
 - I SW-data: `eq` (EQ-Number), `dnum` (D-number) og `legacy` (Legacy number).
-- I værktøj.xlsx: **Alias**, **Asset** og **Category** (EQ-nummer).
+- I værktøj.xlsx: **Alias**, **Asset** og **Category** (EQ-nummer). Findes intet, sammenlignes med Alias-nummeret før den første "-", fx `154071` finder `154071-∞_ID3980`.
 
 Navnesøgningen bruger kolonnen **Description** i værktøj.xlsx. Alle indtastede ord skal indgå i navnet, i vilkårlig rækkefølge.
 
@@ -34,7 +34,7 @@ Findes nummeret stadig ikke, søger siden med nummeret før den første "-", fx 
 
 Søgningen skelner ikke mellem store og små bogstaver.
 
-Hvis nummeret ikke findes, vises beskeden: "Please check input or Værktøjet ikke på SW Valid list".
+Hvis værktøjet kun findes i værktøj.xlsx, vises Equipment name sammen med "Værktøjet ikke på SW Valid list". Findes nummeret slet ikke, vises beskeden: "Please check input or Værktøjet ikke på SW Valid list".
 
 ## Filer
 
@@ -74,4 +74,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=25` i `index.html` (fx til `?v=26`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=27` i `index.html` (fx til `?v=28`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
