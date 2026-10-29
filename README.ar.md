@@ -77,4 +77,4 @@ images/tools/     صور الأدوات
 1. استبدل محتوى `SW_TOOL_DATA` أو `PROCESS_TOOL_DATA` في `data.js` بالبيانات الجديدة من ملفات Excel.
    لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html`.
-3. **كبّر رقم الإصدار** `?v=29` في `index.html` (مثلاً إلى `?v=30`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+3. **كبّر رقم الإصدار** `?v=30` في `index.html` (مثلاً إلى `?v=31`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
