@@ -200,8 +200,9 @@ body {
 }
 
 .scanner__box {
-  width: 20vw;
-  padding: 8px;
+  width: 100%;
+  max-width: 375px;
+  padding: 12px;
   text-align: center;
   background: var(--paper);
   border-radius: var(--radius);

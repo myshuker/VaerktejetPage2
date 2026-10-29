@@ -479,8 +479,8 @@
   });
 
   // ---------- Camera barcode scan ----------
-  // Uses the browser's own BarcodeDetector (e.g. Chrome on Android). The
-  // Scan button stays hidden where the browser or the camera is not available.
+  // Uses the browser's own BarcodeDetector (e.g. Chrome on Android), otherwise
+  // ZXing. The Scan button stays hidden where the camera is not available.
 
   const scanButton = document.getElementById("scan-button");
   const scanner = document.getElementById("scanner");
@@ -520,25 +520,49 @@
       return;
     }
 
-    const detector = new BarcodeDetector({
-      formats: await BarcodeDetector.getSupportedFormats(),
-    });
+    const readCode = await createCodeReader();
     scanning = true;
     (async function detect() {
       if (!scanning) return;
       try {
-        const codes = await detector.detect(scanVideo);
-        const code = codes.length ? codes[0].rawValue.trim() : "";
+        const code = (await readCode()).trim();
         if (code) return onScanned(code);
       } catch (e) {
-        // video frame not ready yet; try again
+        // no code in this frame, or video not ready yet; try again
       }
       setTimeout(detect, 200);
     })();
   }
 
-  if ("BarcodeDetector" in window && navigator.mediaDevices &&
-      navigator.mediaDevices.getUserMedia) {
+  // Returns a function that reads a code from the current video frame
+  async function createCodeReader() {
+    if ("BarcodeDetector" in window) {
+      const detector = new BarcodeDetector({
+        formats: await BarcodeDetector.getSupportedFormats(),
+      });
+      return async function () {
+        const codes = await detector.detect(scanVideo);
+        return codes.length ? codes[0].rawValue : "";
+      };
+    }
+
+    // ZXing (zxing.min.js) for browsers without BarcodeDetector, e.g. iPhone
+    const reader = new ZXing.MultiFormatReader();
+    reader.setHints(new Map([[ZXing.DecodeHintType.TRY_HARDER, true]]));
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    return async function () {
+      canvas.width = scanVideo.videoWidth;
+      canvas.height = scanVideo.videoHeight;
+      context.drawImage(scanVideo, 0, 0);
+      const source = new ZXing.HTMLCanvasElementLuminanceSource(canvas);
+      const bitmap = new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(source));
+      return reader.decode(bitmap).getText(); // throws when no code is found
+    };
+  }
+
+  if (("BarcodeDetector" in window || "ZXing" in window) &&
+      navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     scanButton.hidden = false;
     scanButton.addEventListener("click", startScan);
     scanClose.addEventListener("click", stopScan);
