@@ -47,7 +47,7 @@ style.css         Design (skrifttypen er indlejret i filen)
 script.js         Søgning og visning af resultater og billeder
 data.js           Data fra D00174522 og D00018073
 asset-data.js     Data fra værktøj.xlsx
-zxing.min.js      ZXing 0.23.0 (MIT-licens) til at læse stregkoder med kameraet
+zxing.min.js      ZXing 0.23.0 (Apache-2.0-licens) til at læse stregkoder med kameraet
 images/           Logo og ikoner
 images/tools/     Billeder af værktøjer
 ```

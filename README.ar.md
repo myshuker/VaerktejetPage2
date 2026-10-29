@@ -47,7 +47,7 @@ style.css         التصميم (والخط مضمَّن داخله)
 script.js         منطق البحث وعرض النتائج والصور
 data.js           بيانات D00174522 و D00018073
 asset-data.js     بيانات værktøj.xlsx
-zxing.min.js      مكتبة ZXing 0.23.0 (رخصة MIT) لقراءة الباركود بالكاميرا
+zxing.min.js      مكتبة ZXing 0.23.0 (رخصة Apache-2.0) لقراءة الباركود بالكاميرا
 images/           الشعار والأيقونات
 images/tools/     صور الأدوات
 ```
