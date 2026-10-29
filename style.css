@@ -104,7 +104,7 @@ body {
   padding: 56px 20px;
 }
 
-/* Label and input on the left, Søg button beside the input */
+/* Label and input on the left, Søg (and Scan) buttons beside the input */
 .lookup__form {
   width: 100%;
   max-width: 480px;
@@ -113,13 +113,15 @@ body {
   column-gap: 10px;
 }
 
-.lookup__form > :not(.lookup__button) {
+.lookup__form > :not(.lookup__buttons) {
   grid-column: 1;
 }
 
-.lookup__form > .lookup__button {
+.lookup__buttons {
   grid-column: 2;
   grid-row: 2;
+  display: flex;
+  gap: 10px;
 }
 
 .lookup__label {
@@ -168,6 +170,56 @@ body {
 .lookup__input:focus-visible {
   outline: 2px solid var(--cook-red-dark);
   outline-offset: 2px;
+}
+
+.lookup__button--scan {
+  color: var(--cook-red);
+  background: var(--paper);
+  border: 1px solid var(--cook-red);
+}
+
+.lookup__button--scan:hover {
+  color: #fff;
+}
+
+/* ---------- Camera scanner ---------- */
+
+.scanner {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.scanner[hidden] {
+  display: none;
+}
+
+.scanner__box {
+  width: 100%;
+  max-width: 480px;
+  padding: 16px;
+  text-align: center;
+  background: var(--paper);
+  border-radius: var(--radius);
+}
+
+.scanner__video {
+  display: block;
+  width: 100%;
+  max-height: 60vh;
+  background: #000;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+
+.scanner__text {
+  margin: 12px 0;
+  color: var(--ink-soft);
 }
 
 /* ---------- Name search with suggestions ---------- */
@@ -354,15 +406,19 @@ body {
     padding: 32px 16px;
   }
 
-  /* Søg button below the input */
+  /* Søg (and Scan) buttons below the input, full width */
   .lookup__form {
     grid-template-columns: 1fr;
   }
 
-  .lookup__form > .lookup__button {
+  .lookup__buttons {
     grid-column: 1;
     grid-row: auto;
     margin-top: 12px;
+  }
+
+  .lookup__buttons .lookup__button {
+    flex: 1;
   }
 
   .result-card {

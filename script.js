@@ -471,8 +471,84 @@
     const best = !chosenRow && !isKnownNumber(text) && findSuggestions(text)[0];
     if (chosenRow) chooseSuggestion(chosenRow);
     else if (best) chooseSuggestion(best);
-    else runSearch(text);
+    else {
+      closeSuggestions();
+      runSearch(text);
+    }
+    input.select(); // a handheld scanner then replaces the text with the next scan
   });
 
+  // ---------- Camera barcode scan ----------
+  // Uses the browser's own BarcodeDetector (e.g. Chrome on Android). The
+  // Scan button stays hidden where the browser or the camera is not available.
+
+  const scanButton = document.getElementById("scan-button");
+  const scanner = document.getElementById("scanner");
+  const scanVideo = document.getElementById("scanner-video");
+  const scanClose = document.getElementById("scanner-close");
+  let scanStream = null;
+  let scanning = false;
+
+  function stopScan() {
+    scanning = false;
+    if (scanStream) scanStream.getTracks().forEach(function (t) { t.stop(); });
+    scanStream = null;
+    scanVideo.srcObject = null;
+    scanner.hidden = true;
+  }
+
+  // The scanned Asset number is searched like a typed number
+  function onScanned(code) {
+    stopScan();
+    input.value = code;
+    chosenRow = null;
+    closeSuggestions();
+    runSearch(code);
+  }
+
+  async function startScan() {
+    scanner.hidden = false;
+    try {
+      scanStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" },
+      });
+      scanVideo.srcObject = scanStream;
+      await scanVideo.play();
+    } catch (e) {
+      stopScan();
+      alert("Kameraet kunne ikke åbnes.");
+      return;
+    }
+
+    const detector = new BarcodeDetector({
+      formats: await BarcodeDetector.getSupportedFormats(),
+    });
+    scanning = true;
+    (async function detect() {
+      if (!scanning) return;
+      try {
+        const codes = await detector.detect(scanVideo);
+        const code = codes.length ? codes[0].rawValue.trim() : "";
+        if (code) return onScanned(code);
+      } catch (e) {
+        // video frame not ready yet; try again
+      }
+      setTimeout(detect, 200);
+    })();
+  }
+
+  if ("BarcodeDetector" in window && navigator.mediaDevices &&
+      navigator.mediaDevices.getUserMedia) {
+    scanButton.hidden = false;
+    scanButton.addEventListener("click", startScan);
+    scanClose.addEventListener("click", stopScan);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !scanner.hidden) stopScan();
+    });
+  }
+
   renderToday();
+
+  // Ready for a handheld scanner (not on phones, to avoid opening the keyboard)
+  if (!window.matchMedia("(pointer: coarse)").matches) input.focus();
 })();

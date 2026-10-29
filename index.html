@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
 <link rel="shortcut icon" href="images/favicon.ico">
-<link rel="stylesheet" href="style.css?v=28">
+<link rel="stylesheet" href="style.css?v=29">
 </head>
 <body>
 
@@ -41,8 +41,19 @@
         <ul id="name-suggestions" class="suggestions" role="listbox" hidden></ul>
       </div>
 
-      <button type="submit" class="lookup__button">Søg</button>
+      <div class="lookup__buttons">
+        <button type="submit" class="lookup__button">Søg</button>
+        <button type="button" id="scan-button" class="lookup__button lookup__button--scan" hidden>Scan</button>
+      </div>
     </form>
+
+    <div id="scanner" class="scanner" hidden>
+      <div class="scanner__box">
+        <video id="scanner-video" class="scanner__video" playsinline muted></video>
+        <p class="scanner__text">Ret kameraet mod stregkoden</p>
+        <button type="button" id="scanner-close" class="lookup__button">Luk</button>
+      </div>
+    </div>
 
     <section id="result" class="result" aria-live="polite"></section>
   </main>
@@ -51,8 +62,8 @@
     <p>Data: D00174522-Rev104.xlsx, D00018073-Rev075.xlsx, værktøj.xlsx</p>
   </footer>
 
-  <script src="data.js?v=28"></script>
-  <script src="asset-data.js?v=28"></script>
-  <script src="script.js?v=28"></script>
+  <script src="data.js?v=29"></script>
+  <script src="asset-data.js?v=29"></script>
+  <script src="script.js?v=29"></script>
 </body>
 </html>

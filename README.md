@@ -8,6 +8,9 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
 2. Skriv i feltet **Værktøjet nummer eller navn**:
    - **Et nummer**, fx `EQ00011597`, `52580`, `52580-C` eller et Asset-nummer som `1006378`. Resultatet vises mens du skriver.
    - **En del af navnet**, fx `balloon` eller `ballonmaskine ø2`. Der vises forslag med værktøjets navn. Vælg et forslag med musen eller med piletasterne og Enter. Trykker du **Søg** uden at vælge, bruges det første forslag.
+3. **Scan en stregkode** med Asset-nummeret:
+   - **Håndscanner (USB/Bluetooth):** Markøren står i søgefeltet, når siden åbnes. Scan stregkoden, så søges der med det samme. Efter hver søgning er teksten markeret, så næste scanning erstatter den.
+   - **Kamera på telefon/tablet:** Tryk på **Scan** og ret kameraet mod stregkoden. Knappen vises kun, hvor browseren kan læse stregkoder (fx Chrome på Android). Kameraet virker kun, når siden åbnes fra en webserver med **https** (ikke som fil).
 
 ## Hvad viser siden
 
@@ -74,4 +77,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=28` i `index.html` (fx til `?v=29`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=29` i `index.html` (fx til `?v=30`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
