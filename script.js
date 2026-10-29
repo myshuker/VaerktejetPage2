@@ -1,7 +1,6 @@
 (function () {
   const form = document.getElementById("lookup-form");
   const input = document.getElementById("tool-input");
-  const nameInput = document.getElementById("name-input");
   const suggestionList = document.getElementById("name-suggestions");
   const resultBox = document.getElementById("result");
   const dateEl = document.getElementById("today-date");
@@ -32,6 +31,7 @@
   let debounceTimer = null;
   let suggestions = []; // asset rows shown in the suggestion list
   let activeIndex = -1; // highlighted suggestion (keyboard)
+  let chosenRow = null; // asset row of the name picked from the suggestions
 
   function normalize(value) {
     return String(value || "").trim().toLowerCase();
@@ -75,14 +75,24 @@
     });
   }
 
-  // Rows from værktøj.xlsx matching Alias, then Asset, then Category (EQ).
-  // Category can match several rows (one EQ-number, several assets).
+  // The number before the first "-": "154426-1,30-∞_ID5247" -> "154426"
+  function baseNumber(id) {
+    const i = id.indexOf("-");
+    return i > 0 ? id.slice(0, i).trim() : "";
+  }
+
+  // Rows from værktøj.xlsx matching Alias, then Asset, then Category (EQ),
+  // then the Alias number before the first "-" ("154071" finds
+  // "154071-∞_ID3980"). Category and the last step can match several rows.
   function findAssets(q) {
-    const cols = [A_ALIAS, A_ASSET, A_CATEGORY];
-    for (let i = 0; i < cols.length; i++) {
-      const rows = ASSET_DATA.filter(function (row) {
-        return normalize(row[cols[i]]) === q;
-      });
+    const tests = [
+      function (row) { return normalize(row[A_ALIAS]) === q; },
+      function (row) { return normalize(row[A_ASSET]) === q; },
+      function (row) { return normalize(row[A_CATEGORY]) === q; },
+      function (row) { return baseNumber(normalize(row[A_ALIAS])) === q; },
+    ];
+    for (let i = 0; i < tests.length; i++) {
+      const rows = ASSET_DATA.filter(tests[i]);
       if (rows.length) return rows;
     }
     return [];
@@ -136,7 +146,7 @@
 
     const open = suggestions.length > 0;
     suggestionList.hidden = !open;
-    nameInput.setAttribute("aria-expanded", open ? "true" : "false");
+    input.setAttribute("aria-expanded", open ? "true" : "false");
   }
 
   function closeSuggestions() {
@@ -145,13 +155,13 @@
     renderSuggestions();
   }
 
-  // Fill the number field with the chosen tool and search
+  // Show the chosen name in the field and search by the tool's number
   function chooseSuggestion(row) {
-    nameInput.value = row[A_DESC];
-    input.value = row[A_ALIAS] || row[A_ASSET];
+    input.value = row[A_DESC];
+    chosenRow = row;
     closeSuggestions();
     clearTimeout(debounceTimer);
-    runSearch();
+    runSearch(row[A_ALIAS] || row[A_ASSET]);
   }
 
   // ---------- Image search in images/tools/ ----------
@@ -159,7 +169,8 @@
 
   // Picture paths from the tool numbers, in original, lower and upper case.
   // The full name is tried first ("52089-J"), then without the letter
-  // suffix ("52089").
+  // suffix ("52089"), then the number before the first "-"
+  // ("154426-1,30-∞_ID5247" -> "154426").
   function buildNumberCandidates(numbers) {
     const names = [];
     function addName(n) {
@@ -172,6 +183,9 @@
     trimmed.forEach(addName);
     trimmed.forEach(function (n) {
       addName(n.replace(/-[A-Za-zÆØÅæøå]*$/, ""));
+    });
+    trimmed.forEach(function (n) {
+      addName(baseNumber(n));
     });
 
     const paths = [];
@@ -308,6 +322,20 @@
     return escapeHtml(list.join(", ") || "—");
   }
 
+  // Equipment name from several rows: without "(...)" and without repeats,
+  // e.g. "Pulling machine - Nedtrækningsmaskine (Ø1)", "... (Ø2)"
+  // -> "Pulling machine - Nedtrækningsmaskine". One row is shown as is.
+  function assetName(assets) {
+    if (assets.length === 1) return escapeHtml(assets[0][A_DESC] || "—");
+    const list = [];
+    assets.forEach(function (a) {
+      const name = a[A_DESC].replace(/\s*\([^)]*\)/g, "").trim();
+      const exists = list.some(function (n) { return normalize(n) === normalize(name); });
+      if (name && !exists) list.push(name);
+    });
+    return escapeHtml(list.join(", ") || "—");
+  }
+
   // Equipment name is the Description from værktøj.xlsx, or the SW name
   // if the number is not in værktøj.xlsx
   function renderResult(tool, assets) {
@@ -317,12 +345,20 @@
       : status === "obsolete" ? "Not SW Valid" : "";
 
     return '<div class="result-card">' +
-      row("Equipment name", assets.length ? assetValues(assets, A_DESC)
+      row("Equipment name", assets.length ? assetName(assets)
         : escapeHtml(tool.name || "—")) +
       row("Status", '<span class="status-pill ' +
         (good ? "status-pill--green" : "status-pill--red") + '">' +
         escapeHtml(tool.status || "—") + "</span>") +
       (message ? note(message, good) : "") +
+      "</div>";
+  }
+
+  // Tool is in værktøj.xlsx but not in the SW data: show its name anyway
+  function renderNotOnSwList(assets) {
+    return '<div class="result-card">' +
+      row("Equipment name", assetName(assets)) +
+      note("Værktøjet ikke på SW Valid list", false) +
       "</div>";
   }
 
@@ -335,8 +371,7 @@
 
   // ---------- Search ----------
 
-  function runSearch() {
-    const query = input.value;
+  function runSearch(query) {
     const q = normalize(query);
 
     if (!q) {
@@ -355,11 +390,20 @@
       ids.push(normalize(assets[0][A_CATEGORY]));
       ids.some(function (id) { return id && (tool = findTool(id)); });
     }
+    // Still not found: try the number before the first "-" of each id
+    if (!tool) {
+      ids.slice().forEach(function (id) {
+        const base = baseNumber(id);
+        if (base && ids.indexOf(base) === -1) ids.push(base);
+      });
+      ids.some(function (id) { return id && (tool = findTool(id)); });
+    }
     const processValid = ids.some(function (id) { return id && isProcessValid(id); });
 
     resultBox.innerHTML =
       renderImageBox() +
-      (tool ? renderResult(tool, assets) : renderError()) +
+      (tool ? renderResult(tool, assets)
+        : assets.length ? renderNotOnSwList(assets) : renderError()) +
       note(processValid ? "Process Valid" : "Not process Valid", processValid) +
       (assets.length ? renderAssetInfo(assets) : "");
 
@@ -375,21 +419,33 @@
     );
   }
 
-  input.addEventListener("input", function () {
-    nameInput.value = ""; // the name no longer matches the number
-    closeSuggestions();
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(runSearch, 250);
-  });
+  // One field for number and name: a known number is searched directly,
+  // anything else shows name suggestions
+  function isKnownNumber(text) {
+    const q = normalize(text);
+    return !!q && (!!findTool(q) || findAssets(q).length > 0);
+  }
 
-  nameInput.addEventListener("input", function () {
-    input.value = ""; // the number no longer matches the name
-    suggestions = findSuggestions(nameInput.value);
+  input.addEventListener("input", function () {
+    chosenRow = null;
+    const text = input.value;
+    const known = isKnownNumber(text);
+    suggestions = known ? [] : findSuggestions(text);
     activeIndex = -1;
     renderSuggestions();
+
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function () {
+      if (known || !suggestions.length) {
+        runSearch(text);
+      } else {
+        resultBox.innerHTML = ""; // wait for a name to be chosen
+        imageToken++;
+      }
+    }, 250);
   });
 
-  nameInput.addEventListener("keydown", function (event) {
+  input.addEventListener("keydown", function (event) {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       if (!suggestions.length) return;
       event.preventDefault();
@@ -397,22 +453,25 @@
       activeIndex = (activeIndex + step + suggestions.length) % suggestions.length;
       renderSuggestions();
       suggestionList.children[activeIndex].scrollIntoView({ block: "nearest" });
-    } else if (event.key === "Enter") {
-      event.preventDefault(); // do not submit the number search
-      if (suggestions.length) chooseSuggestion(suggestions[Math.max(activeIndex, 0)]);
+    } else if (event.key === "Enter" && activeIndex >= 0) {
+      event.preventDefault(); // choose the highlighted name instead of submitting
+      chooseSuggestion(suggestions[activeIndex]);
     } else if (event.key === "Escape") {
       closeSuggestions();
     }
   });
 
-  nameInput.addEventListener("blur", closeSuggestions);
+  input.addEventListener("blur", closeSuggestions);
 
-  // Søg searches the number, or the best name match if only a name is typed
+  // Søg / Enter: the chosen name, a known number, or the best name match
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    const best = !normalize(input.value) && findSuggestions(nameInput.value)[0];
-    if (best) chooseSuggestion(best);
-    else runSearch();
+    clearTimeout(debounceTimer);
+    const text = input.value;
+    const best = !chosenRow && !isKnownNumber(text) && findSuggestions(text)[0];
+    if (chosenRow) chooseSuggestion(chosenRow);
+    else if (best) chooseSuggestion(best);
+    else runSearch(text);
   });
 
   renderToday();

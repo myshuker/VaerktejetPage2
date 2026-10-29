@@ -104,7 +104,7 @@ body {
   padding: 56px 20px;
 }
 
-/* Labels and inputs on the left, one Søg button beside both inputs */
+/* Label and input on the left, Søg button beside the input */
 .lookup__form {
   width: 100%;
   max-width: 480px;
@@ -119,7 +119,7 @@ body {
 
 .lookup__form > .lookup__button {
   grid-column: 2;
-  grid-row: 2 / 5;
+  grid-row: 2;
 }
 
 .lookup__label {
@@ -171,10 +171,6 @@ body {
 }
 
 /* ---------- Name search with suggestions ---------- */
-
-.lookup__label--name {
-  margin-top: 20px;
-}
 
 .suggest {
   position: relative;
@@ -358,7 +354,7 @@ body {
     padding: 32px 16px;
   }
 
-  /* Søg button below both inputs */
+  /* Søg button below the input */
   .lookup__form {
     grid-template-columns: 1fr;
   }

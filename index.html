@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
 <link rel="shortcut icon" href="images/favicon.ico">
-<link rel="stylesheet" href="style.css?v=27">
+<link rel="stylesheet" href="style.css?v=28">
 </head>
 <body>
 
@@ -26,22 +26,13 @@
 
   <main class="lookup">
     <form id="lookup-form" class="lookup__form" autocomplete="off">
-      <label for="tool-input" class="lookup__label">Værktøjet nummer</label>
-      <input
-        type="text"
-        id="tool-input"
-        class="lookup__input"
-        placeholder="fx. EQ00011597 eller 52580"
-        inputmode="text"
-      >
-
-      <label for="name-input" class="lookup__label lookup__label--name">Værktøj navn</label>
+      <label for="tool-input" class="lookup__label">Værktøjet nummer eller navn</label>
       <div class="suggest">
         <input
           type="text"
-          id="name-input"
+          id="tool-input"
           class="lookup__input"
-          placeholder="fx. Balloon machine"
+          placeholder="fx. 52580 eller Balloon machine"
           role="combobox"
           aria-autocomplete="list"
           aria-expanded="false"
@@ -60,8 +51,8 @@
     <p>Data: D00174522-Rev104.xlsx, D00018073-Rev075.xlsx, værktøj.xlsx</p>
   </footer>
 
-  <script src="data.js?v=27"></script>
-  <script src="asset-data.js?v=27"></script>
-  <script src="script.js?v=27"></script>
+  <script src="data.js?v=28"></script>
+  <script src="asset-data.js?v=28"></script>
+  <script src="script.js?v=28"></script>
 </body>
 </html>

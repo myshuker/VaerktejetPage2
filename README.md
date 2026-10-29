@@ -5,15 +5,15 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
 ## Sådan bruges siden
 
 1. Åbn `index.html` i en browser. Der kræves ingen server eller internetforbindelse.
-2. Søg på en af to måder:
-   - **Værktøjet nummer:** Skriv nummeret, fx `EQ00011597`, `52580`, `52580-C` eller et Asset-nummer som `1006378`. Resultatet vises mens du skriver, eller når du trykker på **Søg**.
-   - **Værktøj navn:** Skriv en del af navnet, fx `balloon` eller `ballonmaskine ø2`. Der vises forslag med værktøjets navn. Vælg et forslag med musen eller med piletasterne og Enter.
+2. Skriv i feltet **Værktøjet nummer eller navn**:
+   - **Et nummer**, fx `EQ00011597`, `52580`, `52580-C` eller et Asset-nummer som `1006378`. Resultatet vises mens du skriver.
+   - **En del af navnet**, fx `balloon` eller `ballonmaskine ø2`. Der vises forslag med værktøjets navn. Vælg et forslag med musen eller med piletasterne og Enter. Trykker du **Søg** uden at vælge, bruges det første forslag.
 
 ## Hvad viser siden
 
 | Resultat | Kilde |
 |---|---|
-| **Equipment name** | Kolonnen **Description** i `ASSET_DATA` i `asset-data.js` (fra værktøj.xlsx). Hvis nummeret ikke findes dér: navnet fra `SW_TOOL_DATA` |
+| **Equipment name** | Kolonnen **Description** i `ASSET_DATA` i `asset-data.js` (fra værktøj.xlsx). Dækker nummeret flere rækker, vises navnet uden "(...)" og uden gentagelser, fx `Pulling machine - Nedtrækningsmaskine`. Hvis nummeret ikke findes dér: navnet fra `SW_TOOL_DATA` |
 | **Status** (Active/Obsolete) | `SW_TOOL_DATA` i `data.js` (fra D00174522-Rev104.xlsx) |
 | `Active` → "Værktøjet er SW valid" (grøn) | |
 | `Obsolete` → "Not SW Valid" (rød) | |
@@ -24,15 +24,17 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
 Nummersøgningen bruger disse kolonner:
 
 - I SW-data: `eq` (EQ-Number), `dnum` (D-number) og `legacy` (Legacy number).
-- I værktøj.xlsx: **Alias**, **Asset** og **Category** (EQ-nummer).
+- I værktøj.xlsx: **Alias**, **Asset** og **Category** (EQ-nummer). Findes intet, sammenlignes med Alias-nummeret før den første "-", fx `154071` finder `154071-∞_ID3980`.
 
 Navnesøgningen bruger kolonnen **Description** i værktøj.xlsx. Alle indtastede ord skal indgå i navnet, i vilkårlig rækkefølge.
 
 Hvis et Asset-nummer ikke findes i SW-data, bruger siden værktøjets Alias og EQ-nummer fra værktøj.xlsx i stedet. Når et EQ-nummer dækker flere assets, vises alle de forskellige værdier, fx "Installed, Retired".
 
+Findes nummeret stadig ikke, søger siden med nummeret før den første "-", fx `154426-1,30-∞_ID5247` → `154426`. Det gælder SW-status, Process Valid og billedet.
+
 Søgningen skelner ikke mellem store og små bogstaver.
 
-Hvis nummeret ikke findes, vises beskeden: "Please check input or Værktøjet ikke på SW Valid list".
+Hvis værktøjet kun findes i værktøj.xlsx, vises Equipment name sammen med "Værktøjet ikke på SW Valid list". Findes nummeret slet ikke, vises beskeden: "Please check input or Værktøjet ikke på SW Valid list".
 
 ## Filer
 
@@ -53,7 +55,7 @@ En browser kan ikke se, hvilke filer der ligger i en mappe. Derfor prøver siden
 Rækkefølgen for billedsøgningen:
 
 1. **Det fulde nummer** som indtastet, derefter værktøjets andre numre fra data. Eksempel: `153916-A.jpg`
-2. **Nummeret uden bogstav-endelsen**. Eksempel: `52827-A` → `52827.jpg`
+2. **Nummeret uden bogstav-endelsen**, derefter **nummeret før den første "-"**. Eksempel: `52827-A` → `52827.jpg`, `153227-∞` → `153227.jpg`
 3. **Et alias** fra listen `NAME_IMAGE_ALIASES` i `script.js`. Eksempel: `Balloon Machine` → `Ballonmaskine.jpg`
 4. **Navnet fra SW-data** (D00174522) skrevet på flere måder. Eksempel: `Laser welder.jpg`
 5. **Description fra værktøj.xlsx**: hele teksten, hver del omkring " - " og hver del uden "(...)". Eksempel: `Laser welder - Lasersvejser` → `Laser welder` → alias `Lasersvejser.jpg`. Trin 3 og 4 bruges også på hver af disse navne.
@@ -72,4 +74,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=24` i `index.html` (fx til `?v=25`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=28` i `index.html` (fx til `?v=29`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
