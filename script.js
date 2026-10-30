@@ -408,13 +408,14 @@
       (assets.length ? renderAssetInfo(assets) : "");
 
     // Look for a picture whether or not the tool was found in the data:
-    // by number, then by the SW name, then by the Description
+    // by number, then by the Asset numbers, then by the SW name, then by the Description
     let names = [tool ? tool.name : ""];
     assets.forEach(function (a) {
       names = names.concat(descriptionNames(a[A_DESC]));
     });
     updateToolImage(
-      (tool ? [query, tool.eq, tool.dnum, tool.legacy] : [query]).concat(ids.slice(1)),
+      (tool ? [query, tool.eq, tool.dnum, tool.legacy] : [query]).concat(ids.slice(1),
+        assets.map(function (a) { return a[A_ASSET]; })),
       names
     );
   }

@@ -59,7 +59,7 @@ En browser kan ikke se, hvilke filer der ligger i en mappe. Derfor prøver siden
 Rækkefølgen for billedsøgningen:
 
 1. **Det fulde nummer** som indtastet, derefter værktøjets andre numre fra data. Eksempel: `153916-A.jpg`
-2. **Nummeret uden bogstav-endelsen**, derefter **nummeret før den første "-"**. Eksempel: `52827-A` → `52827.jpg`, `153227-∞` → `153227.jpg`
+2. **Nummeret uden bogstav-endelsen**, derefter **nummeret før den første "-"**. Eksempel: `52827-A` → `52827.jpg`, `153227-∞` → `153227.jpg`. Derefter værktøjets **Asset-numre** fra værktøj.xlsx, fx `1007404.jpg`
 3. **Et alias** fra listen `NAME_IMAGE_ALIASES` i `script.js`. Eksempel: `Balloon Machine` → `Ballonmaskine.jpg`
 4. **Navnet fra SW-data** (D00174522) skrevet på flere måder. Eksempel: `Laser welder.jpg`
 5. **Description fra værktøj.xlsx**: hele teksten, hver del omkring " - " og hver del uden "(...)". Eksempel: `Laser welder - Lasersvejser` → `Laser welder` → alias `Lasersvejser.jpg`. Trin 3 og 4 bruges også på hver af disse navne.
@@ -78,4 +78,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=34` i `index.html` (fx til `?v=35`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=35` i `index.html` (fx til `?v=36`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
