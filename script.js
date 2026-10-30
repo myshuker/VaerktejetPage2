@@ -480,12 +480,13 @@
 
   // ---------- Camera barcode scan ----------
   // Uses the browser's own BarcodeDetector (e.g. Chrome on Android), otherwise
-  // ZXing. The Scan button stays hidden where the camera is not available.
+  // ZXing. The Scan button is shown only on phones and tablets with a camera.
 
   const scanButton = document.getElementById("scan-button");
   const scanner = document.getElementById("scanner");
   const scanVideo = document.getElementById("scanner-video");
   const scanClose = document.getElementById("scanner-close");
+  const isTouch = window.matchMedia("(pointer: coarse)").matches;
   let scanStream = null;
   let scanning = false;
 
@@ -561,7 +562,7 @@
     };
   }
 
-  if (("BarcodeDetector" in window || "ZXing" in window) &&
+  if (isTouch && ("BarcodeDetector" in window || "ZXing" in window) &&
       navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     scanButton.hidden = false;
     scanButton.addEventListener("click", startScan);
@@ -574,5 +575,5 @@
   renderToday();
 
   // Ready for a handheld scanner (not on phones, to avoid opening the keyboard)
-  if (!window.matchMedia("(pointer: coarse)").matches) input.focus();
+  if (!isTouch) input.focus();
 })();

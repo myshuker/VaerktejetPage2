@@ -308,10 +308,10 @@ body {
 
 .result-card__img {
   display: block;
-  width: 150px;
-  height: 150px;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  max-height: 260px;
+  margin: 0;
   object-fit: contain;
 }
 
@@ -435,5 +435,9 @@ body {
 
   .result-card__row {
     padding: 8px 0;
+  }
+
+  .result-card__img {
+    max-height: 200px;
   }
 }
