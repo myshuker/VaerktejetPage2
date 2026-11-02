@@ -574,6 +574,24 @@
     });
   }
 
+  // ---------- Light / dark mode ----------
+
+  const themeToggle = document.getElementById("theme-toggle");
+
+  function showThemeButton() {
+    const dark = document.documentElement.dataset.theme === "dark";
+    themeToggle.textContent = dark ? "☀ Lys" : "☾ Mørk";
+    themeToggle.setAttribute("aria-label", dark ? "Skift til lys tilstand" : "Skift til mørk tilstand");
+  }
+
+  themeToggle.addEventListener("click", function () {
+    const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem("theme", theme); } catch (e) {} // remembered for next visit
+    showThemeButton();
+  });
+
+  showThemeButton();
   renderToday();
 
   // Ready for a handheld scanner (not on phones, to avoid opening the keyboard)

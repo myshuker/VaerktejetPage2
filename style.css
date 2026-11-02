@@ -28,6 +28,43 @@
   --radius: 4px;
 }
 
+/* Dark mode, switched with the toggle button in the header */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #ececec;
+  --ink-soft: #a9a9a9;
+  --paper: #1f1f1f;
+  --paper-soft: #141414;
+  --line: #3a3a3a;
+  --green: #6fd08a;
+  --green-bg: #17301f;
+  --red-bg: #3b161b;
+}
+
+[data-theme="dark"] .brand__name,
+[data-theme="dark"] .lookup__button--scan {
+  color: #ff5a6e;
+}
+
+[data-theme="dark"] .status-pill--red,
+[data-theme="dark"] .result-note--red,
+[data-theme="dark"] .result-error {
+  color: #ff8a99;
+}
+
+[data-theme="dark"] .result-error {
+  border-color: #6b2a33;
+}
+
+[data-theme="dark"] .lookup__input {
+  border-color: #555;
+}
+
+[data-theme="dark"] .brand__logo {
+  background: #fff;
+  border-radius: var(--radius);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -49,10 +86,29 @@ body {
 /* ---------- Header ---------- */
 
 .brand {
+  position: relative;
   padding: 48px 24px 32px;
   text-align: center;
   border-bottom: 1px solid var(--line);
   background: var(--paper);
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--ink);
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--ink-soft);
 }
 
 .brand__row {
@@ -395,7 +451,14 @@ body {
 
 @media (max-width: 480px) {
   .brand {
-    padding: 25px 16px 10px;
+    padding: 10px 16px 10px;
+  }
+
+  /* Own line above the logo, so it does not cover the name */
+  .theme-toggle {
+    position: static;
+    display: block;
+    margin: 0 0 8px auto;
   }
 
   .brand__row {
