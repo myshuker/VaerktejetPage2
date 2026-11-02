@@ -9,7 +9,7 @@
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   // Column positions in ASSET_DATA (værktøj.xlsx)
-  const A_CATEGORY = 0, A_ALIAS = 1, A_ASSET = 2, A_DESC = 3, A_STATUS = 4, A_QRG = 5;
+  const A_CATEGORY = 0, A_ALIAS = 1, A_ASSET = 2, A_DESC = 3, A_STATUS = 4, A_QRG = 5, A_LOCATION = 6;
   const MAX_SUGGESTIONS = 50;
 
   const IMAGE_DIR = "images/tools/";
@@ -366,6 +366,7 @@
     return '<div class="result-card result-asset">' +
       row("Quality Risk Group", assetValues(assets, A_QRG)) +
       row("Status (værktøj)", assetValues(assets, A_STATUS)) +
+      row("Location", assetValues(assets, A_LOCATION)) +
       "</div>";
   }
 

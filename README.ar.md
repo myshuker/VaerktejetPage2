@@ -20,7 +20,7 @@
 | **Status** (Active/Obsolete) | `SW_TOOL_DATA` في `data.js` (من D00174522-Rev104.xlsx) |
 | `Active` ← "Værktøjet er SW valid" (أخضر) | |
 | `Obsolete` ← "Not SW Valid" (أحمر) | |
-| **Quality Risk Group** و **Status (værktøj)** | `ASSET_DATA` في `asset-data.js` (من værktøj.xlsx) |
+| **Quality Risk Group** و **Status (værktøj)** و **Location** | `ASSET_DATA` في `asset-data.js` (من værktøj.xlsx) |
 | **Process Valid / Not process Valid** | `PROCESS_TOOL_DATA` في `data.js` (من D00018073-Rev075.xlsx) |
 | **Billede** (صورة الأداة) | مجلد `images/tools/` |
 
@@ -76,6 +76,6 @@ images/tools/     صور الأدوات
 ## تحديث البيانات
 
 1. استبدل محتوى `SW_TOOL_DATA` أو `PROCESS_TOOL_DATA` في `data.js` بالبيانات الجديدة من ملفات Excel.
-   لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
+   لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
 2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html`.
-3. **كبّر رقم الإصدار** `?v=35` في `index.html` (مثلاً إلى `?v=36`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+3. **كبّر رقم الإصدار** `?v=36` في `index.html` (مثلاً إلى `?v=37`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.

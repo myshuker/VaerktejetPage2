@@ -20,7 +20,7 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
 | **Status** (Active/Obsolete) | `SW_TOOL_DATA` i `data.js` (fra D00174522-Rev104.xlsx) |
 | `Active` → "Værktøjet er SW valid" (grøn) | |
 | `Obsolete` → "Not SW Valid" (rød) | |
-| **Quality Risk Group** og **Status (værktøj)** | `ASSET_DATA` i `asset-data.js` (fra værktøj.xlsx) |
+| **Quality Risk Group**, **Status (værktøj)** og **Location** | `ASSET_DATA` i `asset-data.js` (fra værktøj.xlsx) |
 | **Process Valid / Not process Valid** | `PROCESS_TOOL_DATA` i `data.js` (fra D00018073-Rev075.xlsx) |
 | **Billede** (billede af værktøjet) | Mappen `images/tools/` |
 
@@ -76,6 +76,6 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 ## Opdatering af data
 
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
-   For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group]`.
+   For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=35` i `index.html` (fx til `?v=36`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=36` i `index.html` (fx til `?v=37`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
