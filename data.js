@@ -1,4 +1,4 @@
-// Data extracted from D00174522-Rev104.xlsx
+// Data extracted from D00174522-Rev105.xlsx
 // Searched columns: eq = Tool ID (EQ-Number), dnum = Tool ID (D-number),
 // legacy = Tool ID (Legacy number). other = Tool ID (Other) (not searched)
 
@@ -492,10 +492,10 @@ const SW_TOOL_DATA = [
   {"eq": "EQ00011771", "dnum": "", "legacy": "53174", "other": "", "status": "Obsolete", "name": "Heating Knife"},
   {"eq": "EQ00011771", "dnum": "", "legacy": "53174-A", "other": "", "status": "Obsolete", "name": "Heating Knife"},
   {"eq": "EQ00011771", "dnum": "", "legacy": "53174-B", "other": "", "status": "Obsolete", "name": "Heating Knife"},
-  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-A", "other": "", "status": "Active", "name": "Blowing tool"},
-  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-B", "other": "", "status": "Active", "name": "Blowing tool"},
-  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-C", "other": "", "status": "Active", "name": "Blowing tool"},
-  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-D", "other": "", "status": "Active", "name": "Blowing tool"},
+  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-A", "other": "", "status": "Obsolete", "name": "Blowing tool"},
+  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-B", "other": "", "status": "Obsolete", "name": "Blowing tool"},
+  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-C", "other": "", "status": "Obsolete", "name": "Blowing tool"},
+  {"eq": "EQ00011892", "dnum": "", "legacy": "154286-D", "other": "", "status": "Obsolete", "name": "Blowing tool"},
   {"eq": "EQ00011462", "dnum": "", "legacy": "154599-A", "other": "", "status": "Obsolete", "name": "Incubator"},
   {"eq": "EQ00011445", "dnum": "", "legacy": "154404", "other": "", "status": "Active", "name": "Lathe"},
   {"eq": "EQ00011338", "dnum": "", "legacy": "153713", "other": "", "status": "Obsolete", "name": "Dial gauge"},

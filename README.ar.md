@@ -18,7 +18,7 @@
 | النتيجة | المصدر |
 |---|---|
 | **Equipment name** | عمود **Description** في `ASSET_DATA` في `asset-data.js` (من værktøj.xlsx). إذا كان الرقم يشمل عدة صفوف، يظهر الاسم بدون "(...)" وبدون تكرار، مثل `Pulling machine - Nedtrækningsmaskine`. إذا لم يوجد الرقم هناك: الاسم من `SW_TOOL_DATA` |
-| **Status** (Active/Obsolete) | `SW_TOOL_DATA` في `data.js` (من D00174522-Rev104.xlsx) |
+| **Status** (Active/Obsolete) | `SW_TOOL_DATA` في `data.js` (من D00174522-Rev105.xlsx) |
 | `Active` ← "Værktøjet er SW valid" (أخضر) | |
 | `Obsolete` ← "Not SW Valid" (أحمر) | |
 | **Quality Risk Group** و **Status (værktøj)** و **Location** | `ASSET_DATA` في `asset-data.js` (من værktøj.xlsx) |
@@ -79,4 +79,4 @@ images/tools/     صور الأدوات
 1. استبدل محتوى `SW_TOOL_DATA` أو `PROCESS_TOOL_DATA` في `data.js` بالبيانات الجديدة من ملفات Excel.
    لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
 2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html`.
-3. **كبّر رقم الإصدار** `?v=37` في `index.html` (مثلاً إلى `?v=38`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+3. **كبّر رقم الإصدار** `?v=38` في `index.html` (مثلاً إلى `?v=39`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
