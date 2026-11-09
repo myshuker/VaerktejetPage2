@@ -509,14 +509,29 @@
     runSearch(code);
   }
 
+  // Keep autofocus on and zoom in 2x when the phone allows it, so the phone can be
+  // held further away (phone cameras cannot focus closer than about 10-15 cm)
+  function improveCamera(track) {
+    if (!track || !track.getCapabilities) return;
+    const caps = track.getCapabilities();
+    const settings = {};
+    if (caps.focusMode && caps.focusMode.indexOf("continuous") !== -1) settings.focusMode = "continuous";
+    if (caps.zoom) settings.zoom = Math.min(Math.max(2, caps.zoom.min), caps.zoom.max);
+    if (Object.keys(settings).length) {
+      track.applyConstraints({ advanced: [settings] }).catch(function () {});
+    }
+  }
+
   async function startScan() {
     scanner.hidden = false;
     try {
       scanStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
+        // Ask for a sharp video; without this iPhone Safari gives only 640x480
+        video: { facingMode: "environment", width: { ideal: 1920 }, height: { ideal: 1080 } },
       });
       scanVideo.srcObject = scanStream;
       await scanVideo.play();
+      improveCamera(scanStream.getVideoTracks()[0]);
     } catch (e) {
       stopScan();
       alert("Kameraet kunne ikke åbnes.");
