@@ -12,6 +12,7 @@ En enkel webside, der tjekker status for et værktøj: om det er **SW Valid** og
    - **Håndscanner (USB/Bluetooth):** Markøren står i søgefeltet, når siden åbnes. Scan stregkoden, så søges der med det samme. Efter hver søgning er teksten markeret, så næste scanning erstatter den.
    - **Kamera på telefon/tablet:** Tryk på **Scan** og ret kameraet mod stregkoden. Knappen vises kun på telefon og tablet (iPhone og Android), ikke på pc. Browserens egen stregkodelæser bruges, hvis den findes, ellers ZXing-biblioteket (`zxing.min.js`). Kameraet virker kun, når siden åbnes fra en webserver med **https** (ikke som fil).
 4. **Lys eller mørk tilstand:** Tryk på knappen øverst til højre (**☾ Mørk** / **☀ Lys**). Valget huskes i browseren. Første gang følger siden systemets indstilling.
+5. **Reservedele:** Tryk på knappen **Reservedele** under **Søg**. Den åbner `reservedele.html`. Søg med ét eller flere af felterne **Description**, **Bin** og **Part**. Resultatet vises mens du skriver: **Description**, **Bin**, **Part** og **Store Quantity**. Udfylder du flere felter, skal alle passe. I Description skal alle ord indgå, i vilkårlig rækkefølge. Der vises højst 100 resultater ad gangen. Tryk på **← Værktøjs status** for at gå tilbage.
 
 ## Hvad viser siden
 
@@ -49,6 +50,9 @@ script.js         Søgning og visning af resultater og billeder
 data.js           Data fra D00174522 og D00018073
 asset-data.js     Data fra værktøj.xlsx
 zxing.min.js      ZXing 0.23.0 (Apache-2.0-licens) til at læse stregkoder med kameraet
+reservedele.html  Siden Reservedele (søgning i reservedele)
+reservedele.js    Søgning og visning på siden Reservedele
+reservedele-data.js  Data fra Reservedele.xlsx
 images/           Logo og ikoner
 images/tools/     Billeder af værktøjer
 ```
@@ -78,5 +82,6 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
 
 1. Erstat indholdet af `SW_TOOL_DATA` eller `PROCESS_TOOL_DATA` i `data.js` med de nye data fra Excel-filerne.
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
-2. Opdater filnavnene (Rev) i footeren i `index.html`.
-3. **Hæv versionsnummeret** `?v=39` i `index.html` (fx til `?v=40`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+   For Reservedele.xlsx: Erstat rækkerne i `PARTS_DATA` i `reservedele-data.js`. Hver række er `[Part, Description, Bin, Store Quantity]`.
+2. Opdater filnavnene (Rev) i footeren i `index.html` (og `reservedele.html`).
+3. **Hæv versionsnummeret** `?v=40` i `index.html` og `reservedele.html` (fx til `?v=41`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.

@@ -12,6 +12,7 @@
    - **ماسح يدوي (USB/Bluetooth):** المؤشر يكون في حقل البحث عند فتح الصفحة. امسح الباركود فيبدأ البحث مباشرة. بعد كل بحث يكون النص محدداً، فيحل المسح التالي محله.
    - **كاميرا الهاتف/التابلت:** اضغط **Scan** ووجّه الكاميرا نحو الباركود. يظهر الزر فقط على الهاتف والتابلت (iPhone و Android)، وليس على الكمبيوتر. يُستخدم قارئ الباركود الخاص بالمتصفح إن وُجد، وإلا مكتبة ZXing (`zxing.min.js`). الكاميرا تعمل فقط عند فتح الصفحة من سيرفر ويب عبر **https** (وليس كملف).
 4. **الوضع الفاتح أو الداكن:** اضغط الزر أعلى اليمين (**☾ Mørk** / **☀ Lys**). يحفظ المتصفح اختيارك. في المرة الأولى تتبع الصفحة إعداد النظام.
+5. **قطع الغيار (Reservedele):** اضغط زر **Reservedele** تحت **Søg**، فتُفتح صفحة `reservedele.html`. ابحث بحقل واحد أو أكثر من **Description** و **Bin** و **Part**. تظهر النتيجة أثناء الكتابة: **Description** و **Bin** و **Part** و **Store Quantity**. إذا ملأت أكثر من حقل، يجب أن تتطابق كلها. في Description يجب أن توجد كل الكلمات، بأي ترتيب. تظهر 100 نتيجة كحد أقصى في كل مرة. اضغط **← Værktøjs status** للرجوع.
 
 ## ماذا يعرض البرنامج
 
@@ -49,6 +50,9 @@ script.js         منطق البحث وعرض النتائج والصور
 data.js           بيانات D00174522 و D00018073
 asset-data.js     بيانات værktøj.xlsx
 zxing.min.js      مكتبة ZXing 0.23.0 (رخصة Apache-2.0) لقراءة الباركود بالكاميرا
+reservedele.html  صفحة قطع الغيار (Reservedele)
+reservedele.js    البحث والعرض في صفحة Reservedele
+reservedele-data.js  بيانات Reservedele.xlsx
 images/           الشعار والأيقونات
 images/tools/     صور الأدوات
 ```
@@ -78,5 +82,6 @@ images/tools/     صور الأدوات
 
 1. استبدل محتوى `SW_TOOL_DATA` أو `PROCESS_TOOL_DATA` في `data.js` بالبيانات الجديدة من ملفات Excel.
    لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
-2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html`.
-3. **كبّر رقم الإصدار** `?v=39` في `index.html` (مثلاً إلى `?v=40`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+   لملف Reservedele.xlsx: استبدل صفوف `PARTS_DATA` في `reservedele-data.js`. كل صف بهذا الترتيب: `[Part, Description, Bin, Store Quantity]`.
+2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html` (و `reservedele.html`).
+3. **كبّر رقم الإصدار** `?v=40` في `index.html` و `reservedele.html` (مثلاً إلى `?v=41`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.

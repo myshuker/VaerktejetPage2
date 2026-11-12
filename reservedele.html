@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookmedical – Reservedele</title>
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="images/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" href="style.css?v=40">
+<script>
+  // Set light/dark mode before the page is drawn: saved choice, else the system setting
+  (function () {
+    let theme = null;
+    try { theme = localStorage.getItem("theme"); } catch (e) {}
+    if (!theme) theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.dataset.theme = theme;
+  })();
+</script>
+</head>
+<body>
+
+  <header class="brand">
+    <button type="button" id="theme-toggle" class="theme-toggle"></button>
+    <div class="brand__row">
+      <img src="images/logo.png" alt="Cook Medical logo" class="brand__logo">
+      <h1 class="brand__name">Cookmedical</h1>
+    </div>
+    <p class="brand__tagline">Reservedele</p>
+    <p class="brand__meta">
+      <span id="today-date"></span>
+    </p>
+  </header>
+
+  <main class="lookup">
+    <a href="index.html" class="back-link">← Værktøjs status</a>
+
+    <form id="parts-form" class="parts__form" autocomplete="off">
+      <div class="parts__field">
+        <label for="parts-desc" class="lookup__label">Description</label>
+        <input type="text" id="parts-desc" class="lookup__input" placeholder="fx. FESTO Seal">
+      </div>
+      <div class="parts__field">
+        <label for="parts-bin" class="lookup__label">Bin</label>
+        <input type="text" id="parts-bin" class="lookup__input" placeholder="fx. A5.1.8">
+      </div>
+      <div class="parts__field">
+        <label for="parts-part" class="lookup__label">Part</label>
+        <input type="text" id="parts-part" class="lookup__input" placeholder="fx. 1003999">
+      </div>
+      <button type="submit" class="lookup__button">Søg</button>
+    </form>
+
+    <section id="parts-result" class="result" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer">
+    <p>Data: Reservedele.xlsx</p>
+  </footer>
+
+  <script src="reservedele-data.js?v=40"></script>
+  <script src="reservedele.js?v=40"></script>
+</body>
+</html>
