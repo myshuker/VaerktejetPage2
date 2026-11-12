@@ -47,6 +47,7 @@ Hvis værktøjet kun findes i værktøj.xlsx, vises Equipment name sammen med "V
 index.html        Sidens struktur
 style.css         Design (skrifttypen er indlejret i filen)
 script.js         Søgning og visning af resultater og billeder
+common.js         Dato og knappen lys/mørk (bruges af begge sider)
 data.js           Data fra D00174522 og D00018073
 asset-data.js     Data fra værktøj.xlsx
 zxing.min.js      ZXing 0.23.0 (Apache-2.0-licens) til at læse stregkoder med kameraet
@@ -84,4 +85,4 @@ Hvis filnavnet er forskelligt fra Equipment name, skal du tilføje en linje i `N
    For værktøj.xlsx: Erstat rækkerne i `ASSET_DATA` i `asset-data.js`. Hver række er `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
    For Reservedele.xlsx: Erstat rækkerne i `PARTS_DATA` i `reservedele-data.js`. Hver række er `[Part, Description, Bin, Store Quantity]`.
 2. Opdater filnavnene (Rev) i footeren i `index.html` (og `reservedele.html`).
-3. **Hæv versionsnummeret** `?v=40` i `index.html` og `reservedele.html` (fx til `?v=41`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.
+3. **Hæv versionsnummeret** `?v=45` i `index.html` og `reservedele.html` (fx til `?v=46`). Ellers kan browsere blive ved med at vise de gamle filer fra deres cache.

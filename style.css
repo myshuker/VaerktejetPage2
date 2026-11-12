@@ -160,22 +160,30 @@ body {
   padding: 56px 20px;
 }
 
-/* Label and input on the left, Søg (and Scan) buttons beside the input */
+/* Label and input on top, then Søg (and Scan) and Reservedele side by side below the input */
 .lookup__form {
   width: 100%;
   max-width: 480px;
   display: grid;
-  grid-template-columns: 1fr auto;
-  column-gap: 10px;
+  grid-template-columns: 1fr 1fr; /* Søg and Reservedele share the input's full width */
+  column-gap: 6px; /* small gap between Søg and Reservedele */
+}
+
+/* No Scan button on the web version (wider screens), also on touch-screen PCs */
+@media (min-width: 481px) {
+  #scan-button {
+    display: none;
+  }
 }
 
 .lookup__form > :not(.lookup__buttons) {
-  grid-column: 1;
+  grid-column: 1 / -1;
 }
 
 .lookup__buttons {
-  grid-column: 2;
-  grid-row: 2;
+  grid-column: 1;
+  grid-row: 3;
+  margin-top: 12px;
   display: flex;
   gap: 10px;
 }
@@ -238,18 +246,18 @@ body {
   color: #fff;
 }
 
-/* Reservedele link, under the Søg button */
 .lookup__buttons .lookup__button {
   flex: 1;
 }
 
+/* Reservedele link, beside the Søg button (below it on phones) */
 .lookup__form > .lookup__button--parts {
   grid-column: 2;
   grid-row: 3;
-  margin-top: 10px;
-  padding: 10px 16px;
-  font-size: 0.95rem;
-  text-align: center;
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-decoration: none;
   color: var(--cook-red);
   background: var(--paper);
@@ -263,10 +271,6 @@ body {
 
 [data-theme="dark"] .lookup__button--parts {
   color: #ff5a6e;
-}
-
-[data-theme="dark"] .lookup__form > .lookup__button--parts:hover {
-  color: #fff;
 }
 
 /* ---------- Reservedele page ---------- */
@@ -334,8 +338,10 @@ body {
   border-left: 1px solid var(--line);
 }
 
-.parts__desc {
+/* Description row, above Bin, Part and Store Quantity */
+.parts__list .result-card > .result-card__row {
   padding-top: 0;
+  border-bottom: none;
 }
 
 /* ---------- Camera scanner ---------- */
@@ -591,6 +597,9 @@ body {
   .lookup__form > .lookup__button--parts {
     grid-column: 1;
     grid-row: auto;
+    margin-top: 10px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
   }
 
   .result-card {

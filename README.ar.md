@@ -47,6 +47,7 @@
 index.html        هيكل الصفحة
 style.css         التصميم (والخط مضمَّن داخله)
 script.js         منطق البحث وعرض النتائج والصور
+common.js         التاريخ وزر الوضع الفاتح/الداكن (تستخدمه الصفحتان)
 data.js           بيانات D00174522 و D00018073
 asset-data.js     بيانات værktøj.xlsx
 zxing.min.js      مكتبة ZXing 0.23.0 (رخصة Apache-2.0) لقراءة الباركود بالكاميرا
@@ -84,4 +85,4 @@ images/tools/     صور الأدوات
    لملف værktøj.xlsx: استبدل صفوف `ASSET_DATA` في `asset-data.js`. كل صف بهذا الترتيب: `[Category, Alias, Asset, Description, Status, Quality Risk Group, Location]`.
    لملف Reservedele.xlsx: استبدل صفوف `PARTS_DATA` في `reservedele-data.js`. كل صف بهذا الترتيب: `[Part, Description, Bin, Store Quantity]`.
 2. حدّث أسماء الملفات (Rev) في الـ footer داخل `index.html` (و `reservedele.html`).
-3. **كبّر رقم الإصدار** `?v=40` في `index.html` و `reservedele.html` (مثلاً إلى `?v=41`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.
+3. **كبّر رقم الإصدار** `?v=45` في `index.html` و `reservedele.html` (مثلاً إلى `?v=46`). بدون ذلك قد تبقى المتصفحات تعرض الملفات القديمة المحفوظة في الكاش.

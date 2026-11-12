@@ -4,10 +4,6 @@
   const binInput = document.getElementById("parts-bin");
   const partInput = document.getElementById("parts-part");
   const resultBox = document.getElementById("parts-result");
-  const dateEl = document.getElementById("today-date");
-
-  const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   // Column positions in PARTS_DATA (Reservedele.xlsx)
   const P_PART = 0, P_DESC = 1, P_BIN = 2, P_QTY = 3;
@@ -25,18 +21,6 @@
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
   }
-
-  // ---------- Date ----------
-
-  function renderToday() {
-    const now = new Date();
-    dateEl.textContent =
-      String(now.getDate()).padStart(2, "0") +
-      MONTH_NAMES[now.getMonth()] +
-      now.getFullYear();
-  }
-
-  // ---------- Search ----------
 
   // A part matches when every filled field matches. Description matches when it
   // contains all the typed words (in any order); Bin and Part when they contain the text.
@@ -57,9 +41,10 @@
       "</div>";
   }
 
+  // Description on top, then Bin, Part and Store Quantity side by side
   function renderPart(p) {
     return '<div class="result-card">' +
-      '<div class="parts__desc">' + row("Description", p[P_DESC]) + "</div>" +
+      row("Description", p[P_DESC]) +
       '<div class="parts__grid">' +
       row("Bin", p[P_BIN]) +
       row("Part", p[P_PART]) +
@@ -99,24 +84,4 @@
   [descInput, binInput, partInput].forEach(function (field) {
     field.addEventListener("input", runSearch);
   });
-
-  // ---------- Light / dark mode ----------
-
-  const themeToggle = document.getElementById("theme-toggle");
-
-  function showThemeButton() {
-    const dark = document.documentElement.dataset.theme === "dark";
-    themeToggle.textContent = dark ? "☀ Lys" : "☾ Mørk";
-    themeToggle.setAttribute("aria-label", dark ? "Skift til lys tilstand" : "Skift til mørk tilstand");
-  }
-
-  themeToggle.addEventListener("click", function () {
-    const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem("theme", theme); } catch (e) {} // remembered for next visit
-    showThemeButton();
-  });
-
-  showThemeButton();
-  renderToday();
 })();

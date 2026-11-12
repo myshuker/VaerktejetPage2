@@ -3,10 +3,6 @@
   const input = document.getElementById("tool-input");
   const suggestionList = document.getElementById("name-suggestions");
   const resultBox = document.getElementById("result");
-  const dateEl = document.getElementById("today-date");
-
-  const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
   // Column positions in ASSET_DATA (værktøj.xlsx)
   const A_CATEGORY = 0, A_ALIAS = 1, A_ASSET = 2, A_DESC = 3, A_STATUS = 4, A_QRG = 5, A_LOCATION = 6;
@@ -46,16 +42,6 @@
 
   function capitalize(word) {
     return word.charAt(0).toUpperCase() + word.slice(1);
-  }
-
-  // ---------- Date ----------
-
-  function renderToday() {
-    const now = new Date();
-    dateEl.textContent =
-      String(now.getDate()).padStart(2, "0") +
-      MONTH_NAMES[now.getMonth()] +
-      now.getFullYear();
   }
 
   // ---------- Data lookup ----------
@@ -588,26 +574,6 @@
       if (event.key === "Escape" && !scanner.hidden) stopScan();
     });
   }
-
-  // ---------- Light / dark mode ----------
-
-  const themeToggle = document.getElementById("theme-toggle");
-
-  function showThemeButton() {
-    const dark = document.documentElement.dataset.theme === "dark";
-    themeToggle.textContent = dark ? "☀ Lys" : "☾ Mørk";
-    themeToggle.setAttribute("aria-label", dark ? "Skift til lys tilstand" : "Skift til mørk tilstand");
-  }
-
-  themeToggle.addEventListener("click", function () {
-    const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = theme;
-    try { localStorage.setItem("theme", theme); } catch (e) {} // remembered for next visit
-    showThemeButton();
-  });
-
-  showThemeButton();
-  renderToday();
 
   // Ready for a handheld scanner (not on phones, to avoid opening the keyboard)
   if (!isTouch) input.focus();
